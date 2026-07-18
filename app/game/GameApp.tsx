@@ -681,7 +681,11 @@ function SceneArt({ scene, speaker, portrait }: { scene: string; speaker: string
         <i /><i /><i /><i /><i />
         <span>{SCENE_ART_LABELS[scene] ?? `LOCAL CACHE // ${scene.toUpperCase()}`}</span>
       </div>
-      {showPortrait && <Image src="/game/moises-portrait.png" alt="" width={1024} height={1024} />}
+      {showPortrait && (
+        <div className="scene-portrait" aria-hidden="true">
+          <Image src="/game/moises-portrait.png" alt="" width={1024} height={1024} />
+        </div>
+      )}
       <div className="scene-caption">SCENE // {scene.toUpperCase()}</div>
     </div>
   );
