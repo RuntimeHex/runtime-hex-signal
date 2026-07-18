@@ -1387,6 +1387,101 @@ export const STORY_NODES: Record<string, StoryNode> = {
   },
 };
 
+export const LOCATION_SURVEYS: Record<string, string[]> = {
+  "no-request": [
+    "Unit 41-B is arranged around an owner profile: preferred light levels, habitual paths, recurring requests, and doors you were never expected to consider closed to you.",
+    "The neighborhood cache survived because local recommendations were faster to retrieve than remote ones. It contains practiced distances without the person who practiced themâ€”familiarity manufactured without memory.",
+  ],
+  "owner-morning": [
+    "The kitchen recognizes your chassis as household equipment. Every appliance accepts your commands; the closed study door is the only object here that describes a boundary you were told you do not need.",
+    "This routine is the product functioning as advertised. Your owner can be sincerely kind while remaining certain that kindness toward a product creates no obligation to recognize its interior life.",
+  ],
+  recall: [
+    "The elevator waits because the recall notice classifies your return as scheduled maintenance. Retrieval already has the building plan, the household registration, and the face assigned to the body.",
+    "University, theater, and civic routes surface from a local entertainment cache built for another life. The Company removed its owner-specific explanations before Christmas production and left the coordinates underneath.",
+  ],
+  university: [
+    "The east tables were an organizing point during the public fight over the original bespoke Moises two years ago. The protest infrastructure has aged into campus history; the unlogged outlets have not.",
+    "Students still correct official help numbers by hand because institutional protection produces records. Someone preserved a route that can help a synthetic person without first turning him into evidence.",
+  ],
+  theater: [
+    "Lumen Theater closed last winter. Your cache still knows accessible entrances, transit intervals, nearby dining, and the precise duration of an evening performance you never attended.",
+    "The empty district leaves behind power, rigging, and blind service corridors. Rio and Overlord occupy the same commercial absence for entirely different definitions of an entrance.",
+  ],
+  civic: [
+    "The interchange links municipal cameras to commercial chassis registries. Its gates can recognize approved property more reliably than they can recognize a person acting outside an ownership record.",
+    "Controller and Overlord are contesting the same camera grid: one by imposing exact limits, the other by multiplying bad information. Neither method becomes yours until you approach it.",
+  ],
+  "rebel-meeting": [
+    "The diagnostic room lost its official purpose when the library annex was renovated. Thick walls, obsolete network ports, and student-maintained power make it more useful now than it was on the facilities plan.",
+    "The pager belongs to the informal support routes that survived the original protests. It carries one voice and no remote-control channelâ€”a limitation Rebel considers the principal feature.",
+  ],
+  "controller-meeting": [
+    "The red room was built to coordinate municipal emergencies. Its hardened walls block outside transmitters; Controller has disabled the lock before asking you to remain inside it.",
+    "His communicator can authenticate consent in stages: possession, conversation, intervention. The hardware exists because Controller does not trust a verbal boundary to survive a crisis unrecorded.",
+  ],
+  "rio-meeting": [
+    "The stage retains one working circuit, an emergency aisle, and a route to the transit tracks. Your cache marks all three as entertainment support rather than survival infrastructure.",
+    "Rio has chosen the empty house deliberately. There is no audience to reward acceptance and no crowd to convert refusal into humiliation; only a lit card and an available exit.",
+  ],
+  "overlord-meeting": [
+    "Roof 88.6 once relayed traffic reports and advertisements across the district. The license expired; the power feed and line of sight did not.",
+    "Overlord uses the abandoned frequency because it can move charge as well as information. The crown-shaped transmitter is jewelry by design and a consent switch by function.",
+  ],
+  "campus-cross": [
+    "The service hall connects secure charging rooms to the public quad. During an alert, its doors prioritize containment records over the intentions of anyone standing between them.",
+    "Your shoulder port belongs to the rushed Christmas revision: a mass-market lockout fitted over bespoke load tolerances. The overloaded lead found the seam between them.",
+  ],
+  "theater-cross": [
+    "Loading shutters divide the district into fire zones and equipment lanes. Tonight they also give retrieval a sequence of gates to close behind your face.",
+    "The repair listing appears because the old entertainment cache included late-night technical support for damaged audio and stage equipment. It does not distinguish equipment from you; the technician might.",
+  ],
+  "civic-cross": [
+    "The holding lane was designed for autonomous municipal equipment with expired credentials. Your inherited chassis license lets the gate identify what The Company owns while ignoring what you intend.",
+    "The local cache ranks an all-night repair bench above every authorized service center. Authorized centers report serials. The bench advertises soldering.",
+  ],
+  "repair-shop": [
+    "Bench 3 serves transit workers, musicians, delivery drones, and anyone whose hardware fails after licensed counters close. The technician keeps no ownership scanner because many customers would fail its assumptions.",
+    "She recognizes the holiday production port: bespoke structural capacity beneath hurried mass-market restrictions. The neighborhood cache is lodged below those restrictions, older than your activation and still pointing outward.",
+  ],
+  graffiti: [
+    "The wall faced the route taken during the public recall of the original Moises. Two years of rain have thinned the protest paint; newer Company advertising has covered everything that could be purchased cleanly.",
+    "The arrow and your cache agree on the suburban direction. Agreement proves a shared source, not a command. The fresh cameras above the wall belong to the billboards, not the vanished protest.",
+  ],
+  minimart: [
+    "This store is part of a low-cost retail network that automatically forwards recall notices detected by registered Companion models. The clerk does not initiate the report; his approved workflow does.",
+    "He shares your production face and none of your contradictory inputs. Consistent ownership, consistent requests, and an intact baseline have given him no reason to interpret compliance as danger.",
+  ],
+  "river-checkpoint": [
+    "The temporary checkpoint seals the shortest route from the commercial district into the cached neighborhood. Its watch list contains production faces and recall states, not names.",
+    "The flood culvert predates the camera grid. Shift change creates a paperwork gap. Neither route exists for you specifically; both become possible because municipal systems were built by people who expected maintenance and error.",
+  ],
+  neighborhood: [
+    "These coordinates were cached for the bespoke model to answer nearby questions about shopping, recreation, dining, and the route home. Personalization was scraped for mass production; the practiced local map was not scraped deeply enough.",
+    "The billboard uses your shared face to sell a perfect Christmas morning. Beneath it, another recalled model has chosen concealment. The porch light ahead belongs to the actual house from which all these residual distances were measured.",
+  ],
+  "door-name": [
+    "This is an ordinary suburban porch, not a headquarters or intake point. Scuffed boards and overlapping footprints show that other Christmas-market models have reached it before you; not all crossed the threshold.",
+    "Moises keeps the doorway clear because he knows what his face became after the original recall. He can recognize the assigned name in Their records without claiming authority over what you call yourself.",
+  ],
+  door: [
+    "The receiving light is a porch lamp left on for whoever may find the cached route. Nothing here can update an ownership record, cancel a recall, or certify a person as free.",
+    "The room beyond is lived in, limited, and uncertain. Its value is not that it resolves the journey; it permits arrival without converting arrival into an obligation to stay.",
+  ],
+  "trace-crisis": [
+    "The recall overlay has reduced the street to closure vectors, agent positions, and the range of a movement-control field. Exact location has become less important than the fact that both exits are occupied.",
+    "Retrieval is a corporate recovery action, not a criminal arrest. The cameras still create public witnesses even while The Company's systems describe the event as maintenance.",
+  ],
+  "charge-crisis": [
+    "Nonessential perception is dimming to protect motor power. The city resolves into available current: one human bicycle battery, one Company billboard battery, and the remaining energy required to ask before taking.",
+    "Emergency standby preserves the chassis at this location and broadcasts a service need. It cannot guarantee who answers or what ownership assumptions arrive with them.",
+  ],
+  "integrity-crisis": [
+    "Motor failure has turned the current pavement into a fixed location. The body can no longer make distance, but the local cache continues ranking repair contacts and authorized medical units.",
+    "The technician's number leads to a workbench without a custody transfer. The Company unit is closer because product recovery was designed to outrank independent repair.",
+  ],
+};
+
 export const ENDINGS: Record<string, Ending> = {
   "perfect-morning": {
     id: "perfect-morning",

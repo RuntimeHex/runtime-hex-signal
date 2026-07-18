@@ -46,6 +46,8 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /Resource changes/);
   assert.match(app, /LAST CHANGE \/\/ RESOURCE DELTA/);
   assert.match(app, /SCENE_ART_LABELS/);
+  assert.match(app, /SURVEY THIS LOCATION/);
+  assert.match(app, /NO ROUTE TIME ELAPSED/);
   assert.match(app, /scene-portrait/);
   assert.match(app, /choice--guide-preferred/);
   assert.match(app, /PREFERRED/);
@@ -55,6 +57,7 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.last-signal-banner/);
   assert.match(css, /\.scene-wire/);
+  assert.match(css, /\.location-survey/);
   assert.match(css, /--portrait-glow/);
   assert.match(css, /drop-shadow/);
   assert.match(css, /guide-preference-pulse/);

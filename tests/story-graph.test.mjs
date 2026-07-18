@@ -63,6 +63,14 @@ test("every authored scene is reachable through a normal or crisis route", () =>
   assert.deepEqual([...Object.keys(nodes).filter((id) => !reachable.has(id))], []);
 });
 
+test("every playable location has authored survey context", () => {
+  assert.deepEqual(Object.keys(story.LOCATION_SURVEYS).sort(), Object.keys(story.STORY_NODES).sort());
+  for (const [nodeId, paragraphs] of Object.entries(story.LOCATION_SURVEYS)) {
+    assert.equal(paragraphs.length, 2, `${nodeId} should have a two-part survey`);
+    assert.ok(paragraphs.every((paragraph) => paragraph.length >= 80), `${nodeId} survey is too thin`);
+  }
+});
+
 test("every scene type has a curated wireframe composition", () => {
   const scenes = new Set(Object.values(story.STORY_NODES).map((node) => node.scene));
   assert.ok(scenes.size >= 16);

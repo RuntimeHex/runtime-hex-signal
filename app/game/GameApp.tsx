@@ -19,6 +19,7 @@ import {
   ENDINGS,
   GUIDE_LABELS,
   GUIDE_OPENING_LINES,
+  LOCATION_SURVEYS,
   ROUTE_LABELS,
   STORY_NODES,
   type StoryChoice,
@@ -401,6 +402,9 @@ function GameScreen({
   const recent = game.log.at(-1);
   const guideVariant = game.guide && game.communicator === "open" ? node.guidance?.[game.guide] : undefined;
   const choices = guideVariant?.choices ?? node.choices;
+  const [surveyedNodeId, setSurveyedNodeId] = useState<string | null>(null);
+  const surveyOpen = surveyedNodeId === node.id;
+  const survey = LOCATION_SURVEYS[node.id];
 
   return (
     <section className={`game-screen guide--${game.guide ?? "alone"}`}>
@@ -425,10 +429,30 @@ function GameScreen({
 
         <article className="story-panel panel-corners">
           <div className="location-row">
-            <span>{node.location}</span><span>{node.time}</span>
+            <span>{node.location}</span>
+            <button
+              className="survey-toggle"
+              type="button"
+              aria-expanded={surveyOpen}
+              aria-controls={`location-survey-${node.id}`}
+              onClick={() => setSurveyedNodeId(surveyOpen ? null : node.id)}
+            >
+              <i aria-hidden="true" />
+              {surveyOpen ? "CLOSE SURVEY" : "SURVEY THIS LOCATION"}
+            </button>
+            <span>{node.time}</span>
           </div>
           <SceneArt scene={node.scene} speaker={node.speaker} portrait={node.portrait} />
           {recent && <LastSignalBanner entry={recent} />}
+          {surveyOpen && (
+            <section className="location-survey" id={`location-survey-${node.id}`}>
+              <header>
+                <span>LOCAL SURVEY // PASSIVE OBSERVATION</span>
+                <b>NO ROUTE TIME ELAPSED</b>
+              </header>
+              {survey.map((paragraph) => <p key={paragraph}>{storyText(paragraph, game.playerName)}</p>)}
+            </section>
+          )}
           <div className={`story-copy speaker--${node.speaker.toLowerCase().replaceAll(" ", "-")}`}>
             <p className="eyebrow">{node.eyebrow}</p>
             <h2>{node.title}</h2>
