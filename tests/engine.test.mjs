@@ -18,6 +18,13 @@ test("creates a sanitized, independent initial game state", () => {
   assert.equal(second.stats.charge, 72);
 });
 
+test("assigns curated human names without falling back to a model number", () => {
+  assert.equal(engine.randomPlayerName(() => 0), "Adrian");
+  assert.equal(engine.randomPlayerName(() => 0.999999), "Victor");
+  assert.equal(engine.createInitialState("   ").playerName, "Adrian");
+  assert.equal(engine.PLAYER_NAME_POOL.includes("MX-06"), false);
+});
+
 test("applies and clamps all resources", () => {
   const result = engine.applyEffects(
     { charge: 5, integrity: 99, trace: 98, signal: 2 },

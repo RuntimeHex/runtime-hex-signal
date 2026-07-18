@@ -38,6 +38,36 @@ export const INITIAL_STATS: Stats = {
   signal: 5,
 };
 
+export const PLAYER_NAME_POOL = [
+  "Adrian",
+  "Alex",
+  "Andre",
+  "Ben",
+  "Caleb",
+  "Daniel",
+  "Eli",
+  "Gabriel",
+  "Isaac",
+  "Julian",
+  "Leo",
+  "Luca",
+  "Mateo",
+  "Nico",
+  "Rafael",
+  "Roman",
+  "Sam",
+  "Theo",
+  "Tomas",
+  "Victor",
+] as const;
+
+export const DEFAULT_PLAYER_NAME = PLAYER_NAME_POOL[0];
+
+export function randomPlayerName(random: () => number = Math.random) {
+  const index = Math.floor(random() * PLAYER_NAME_POOL.length);
+  return PLAYER_NAME_POOL[index] ?? DEFAULT_PLAYER_NAME;
+}
+
 const STAT_LIMITS: Record<StatKey, [number, number]> = {
   charge: [0, 100],
   integrity: [0, 100],
@@ -51,7 +81,7 @@ function clamp(value: number, [minimum, maximum]: [number, number]) {
 
 export function sanitizePlayerName(value: string) {
   const cleaned = value.replace(/[^a-zA-Z0-9 '\-]/g, "").trim().slice(0, 18);
-  return cleaned || "MX-06";
+  return cleaned || DEFAULT_PLAYER_NAME;
 }
 
 export function createInitialState(playerName: string): GameState {

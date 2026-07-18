@@ -7,8 +7,10 @@ import {
   BARGAIN_REVOCATION,
   createInitialState,
   crisisNode,
+  DEFAULT_PLAYER_NAME,
   formatEffect,
   isSavedGame,
+  randomPlayerName,
   resolveFinalEnding,
   type GameState,
   type StatKey,
@@ -45,8 +47,8 @@ function choiceBlockReason(choice: StoryChoice, game: GameState) {
 
 export function GameApp() {
   const [screen, setScreen] = useState<Screen>("title");
-  const [playerName, setPlayerName] = useState("MX-06");
-  const [game, setGame] = useState<GameState>(() => createInitialState("MX-06"));
+  const [playerName, setPlayerName] = useState(DEFAULT_PLAYER_NAME);
+  const [game, setGame] = useState<GameState>(() => createInitialState(DEFAULT_PLAYER_NAME));
   const [savedGame, setSavedGame] = useState<GameState | null>(null);
   const [soundOn, setSoundOn] = useState(true);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -55,13 +57,13 @@ export function GameApp() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
+      setPlayerName(randomPlayerName());
       try {
         const raw = localStorage.getItem(SAVE_KEY);
         if (!raw) return;
         const parsed: unknown = JSON.parse(raw);
         if (isSavedGame(parsed)) {
           setSavedGame(parsed);
-          setPlayerName(parsed.playerName);
         }
       } catch {
         localStorage.removeItem(SAVE_KEY);
@@ -249,9 +251,11 @@ export function GameApp() {
   }, [aboutOpen, choose, game.communicator, game.guide, game.nodeId, screen, toggleSound]);
 
   const restart = () => {
+    const nextName = randomPlayerName();
     localStorage.removeItem(SAVE_KEY);
     setSavedGame(null);
-    setGame(createInitialState(playerName));
+    setPlayerName(nextName);
+    setGame(createInitialState(nextName));
     setScreen("title");
     setLogOpen(false);
   };

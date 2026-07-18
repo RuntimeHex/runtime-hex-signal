@@ -26,6 +26,8 @@ test("server-renders the complete Runtime Hex title screen", async () => {
   assert.match(html, /BEGIN TRANSMISSION/);
   assert.match(html, /A PLAYABLE BRANCH/);
   assert.match(html, /rth-mark\.png/);
+  assert.match(html, /Adrian/);
+  assert.doesNotMatch(html, /MX-06/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
