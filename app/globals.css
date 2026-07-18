@@ -460,12 +460,21 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--green); out
 .choices button:hover { border-color: var(--cyan); transform: translateX(-3px); box-shadow: 4px 0 var(--green); }
 .choices button:disabled { opacity: .65; cursor: wait; }
 .choices button > b { color: var(--cyan); font-size: .62rem; }
+.game-screen.guide--controller { --active-guide: var(--red); }
+.game-screen.guide--overlord { --active-guide: var(--cyan); }
+.game-screen.guide--rio { --active-guide: var(--gold); }
+.game-screen.guide--rebel { --active-guide: var(--green); }
+.choices button.choice--guide-preferred { position: relative; border-color: color-mix(in srgb, var(--active-guide) 72%, #17333e); background: linear-gradient(100deg, color-mix(in srgb, var(--active-guide) 11%, #071018), #04090e 72%); box-shadow: inset 3px 0 var(--active-guide), 0 0 16px color-mix(in srgb, var(--active-guide) 24%, transparent); animation: guide-preference-pulse 2.8s ease-in-out infinite; }
+.choices button.choice--guide-preferred:hover { border-color: var(--active-guide); box-shadow: inset 3px 0 var(--active-guide), 4px 0 var(--active-guide), 0 0 24px color-mix(in srgb, var(--active-guide) 34%, transparent); }
+.choices button.choice--guide-preferred > b, .choices button.choice--guide-preferred > i { color: var(--active-guide); text-shadow: 0 0 10px color-mix(in srgb, var(--active-guide) 70%, transparent); }
+.choices button mark { display: block; width: fit-content; margin-bottom: .38rem; padding: .16rem .3rem; border: 1px solid color-mix(in srgb, var(--active-guide) 40%, transparent); background: color-mix(in srgb, var(--active-guide) 8%, transparent); color: var(--active-guide); font-family: var(--font-ui); font-size: .43rem; letter-spacing: .12em; }
 .choices button strong { display: block; color: #e6f9ff; font-size: .71rem; line-height: 1.35; }
 .choices button small { display: block; margin-top: .42rem; color: #637982; font-family: var(--font-display); font-size: .64rem; line-height: 1.35; }
 .choices button > i { color: var(--green); font-size: 1.35rem; font-style: normal; }
 .choices button em { display: block; margin-top: .5rem; color: var(--red); font-size: .49rem; font-style: normal; letter-spacing: .08em; line-height: 1.35; }
 .choices button.choice--blocked, .choices button.choice--blocked:hover { opacity: .72; border-color: rgba(255,56,48,.42); transform: none; box-shadow: none; cursor: not-allowed; }
 .choices button.choice--blocked > b, .choices button.choice--blocked > i { color: var(--red); }
+@keyframes guide-preference-pulse { 0%, 100% { box-shadow: inset 3px 0 var(--active-guide), 0 0 12px color-mix(in srgb, var(--active-guide) 18%, transparent); } 50% { box-shadow: inset 3px 0 var(--active-guide), 0 0 22px color-mix(in srgb, var(--active-guide) 31%, transparent); } }
 .choice-note { margin-top: 1.2rem; color: #3f5962; font-size: .49rem; letter-spacing: .1em; line-height: 1.5; }
 .choice-note i { display: inline-block; width: 5px; height: 5px; margin-right: .4rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
 

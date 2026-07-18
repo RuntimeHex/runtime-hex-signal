@@ -102,6 +102,19 @@ test("guide consent stays layered and every shared scene has an Alone version", 
   assert.ok(controllerBlock?.blockedWhen.reason.includes("CONTROLLER SHIELD"));
 });
 
+test("every guide recommendation points to a choice the player can see", () => {
+  for (const [nodeId, node] of Object.entries(story.STORY_NODES)) {
+    for (const [guide, variant] of Object.entries(node.guidance ?? {})) {
+      assert.ok(variant.preferredChoiceId, `${nodeId} has no preferred choice for ${guide}`);
+      const visibleChoices = variant.choices ?? node.choices;
+      assert.ok(
+        visibleChoices.some((choice) => choice.id === variant.preferredChoiceId),
+        `${nodeId} recommends missing choice ${variant.preferredChoiceId} for ${guide}`,
+      );
+    }
+  }
+});
+
 test("public narrative preserves the canon language boundary", () => {
   assert.doesNotMatch(source, /\b(?:Robb|Viv)\b/);
   assert.doesNotMatch(source, /\bthe Company\b/);

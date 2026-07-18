@@ -456,16 +456,18 @@ function GameScreen({
           <div className="choices">
             {choices.map((choice, index) => {
               const blockReason = choiceBlockReason(choice, game);
+              const guidePreferred = guideVariant?.preferredChoiceId === choice.id;
               return (
                 <button
                   key={choice.id}
                   onClick={() => choose(choice, index)}
                   disabled={choiceLocked || Boolean(blockReason)}
-                  className={blockReason ? "choice--blocked" : ""}
+                  className={[blockReason && "choice--blocked", guidePreferred && "choice--guide-preferred"].filter(Boolean).join(" ")}
                   aria-describedby={blockReason ? `${choice.id}-blocked` : undefined}
                 >
                   <b aria-hidden="true">0{index + 1}</b>
                   <span>
+                    {guidePreferred && <mark>{`${GUIDE_LABELS[game.guide!]} // PREFERRED`}</mark>}
                     <strong>{storyText(choice.label, game.playerName)}</strong>
                     <small>{storyText(choice.detail, game.playerName)}</small>
                     {blockReason && <em id={`${choice.id}-blocked`}>{blockReason}</em>}

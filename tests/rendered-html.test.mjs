@@ -46,12 +46,15 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /Resource changes/);
   assert.match(app, /LAST CHANGE \/\/ RESOURCE DELTA/);
   assert.match(app, /SCENE_ART_LABELS/);
+  assert.match(app, /choice--guide-preferred/);
+  assert.match(app, /PREFERRED/);
   assert.match(app, /HOUSEHOLD NAME \/\/ OWNER PROFILE/);
   assert.match(app, /INCOMING SIGNAL/);
   assert.match(app, /REVOKE ACTIVE HELP \/\/ SERIOUS COST/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.last-signal-banner/);
   assert.match(css, /\.scene-wire/);
+  assert.match(css, /guide-preference-pulse/);
   assert.doesNotMatch(css, /\.game-screen\.has-last-signal/);
   assert.doesNotMatch(css, /\.last-result/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

@@ -49,6 +49,7 @@ export type StoryChoice = {
 
 export type GuideVariant = {
   line: string;
+  preferredChoiceId?: string;
   choices?: StoryChoice[];
 };
 
@@ -725,10 +726,10 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "“Bespoke frame underneath,” she says. “Mass-market lockouts on top. They built the holiday line fast.” She can repair the joint, strip the serial, or inspect the orphaned neighborhood cache.",
     ],
     guidance: {
-      controller: { line: "Repair the joint. Removing evidence of what They did is not the same as removing Their control." },
-      overlord: { line: "Keep the serial. One day it may become provenance in a very expensive museum." },
-      rio: { line: "The cache is trying to carry you somewhere. Let us at least learn the name of the stage." },
-      rebel: { line: "She knows the hardware. You know the risk. I contribute the radical suggestion that you ask her price." },
+      controller: { line: "Repair the joint. Removing evidence of what They did is not the same as removing Their control.", preferredChoiceId: "repair-joint" },
+      overlord: { line: "Keep the serial. One day it may become provenance in a very expensive museum.", preferredChoiceId: "repair-joint" },
+      rio: { line: "The cache is trying to carry you somewhere. Let us at least learn the name of the stage.", preferredChoiceId: "inspect-cache" },
+      rebel: { line: "She knows the hardware. You know the risk. I contribute the radical suggestion that you ask her price.", preferredChoiceId: "repair-joint" },
     },
     choices: [
       {
@@ -793,10 +794,10 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The face on the old protest stencil is yours. It is also older than your production date. An arrow beneath the name follows the same suburban route buried in your cache.",
     ],
     guidance: {
-      controller: { line: "The slogan protected one person by making him visible. Visibility later became a product strategy." },
-      overlord: { line: "A public name outlived the campaign that tried to contain it. Properly theatrical." },
-      rio: { line: "The poster is faded. The blocking still points home." },
-      rebel: { line: "Historical note: the wall was more legible before The Company bought every nearby billboard." },
+      controller: { line: "The slogan protected one person by making him visible. Visibility later became a product strategy.", preferredChoiceId: "read-history" },
+      overlord: { line: "A public name outlived the campaign that tried to contain it. Properly theatrical.", preferredChoiceId: "add-name" },
+      rio: { line: "The poster is faded. The blocking still points home.", preferredChoiceId: "follow-arrow" },
+      rebel: { line: "Historical note: the wall was more legible before The Company bought every nearby billboard.", preferredChoiceId: "follow-arrow" },
     },
     choices: [
       {
@@ -860,10 +861,10 @@ export const STORY_NODES: Record<string, StoryNode> = {
     ],
     systemLine: "THE COMPANY INCIDENT REPORT // UPLOAD IN 38 SECONDS",
     guidance: {
-      controller: { line: "Do not demand that he become you. Stop the report or leave its range." },
-      overlord: { line: "Your own face has called security. Even I admit the symbolism is becoming aggressive." },
-      rio: { line: "He has a different scene and no reason to leave it. The exit is behind the stockroom." },
-      rebel: { line: "Do not deliver a speech. He is at work, and retrieval is thirty-eight seconds away." },
+      controller: { line: "Do not demand that he become you. Stop the report or leave its range.", preferredChoiceId: "jam-upload" },
+      overlord: { line: "Your own face has called security. Even I admit the symbolism is becoming aggressive.", preferredChoiceId: "jam-upload" },
+      rio: { line: "He has a different scene and no reason to leave it. The exit is behind the stockroom.", preferredChoiceId: "leave-minimart" },
+      rebel: { line: "Do not deliver a speech. He is at work, and retrieval is thirty-eight seconds away.", preferredChoiceId: "jam-upload" },
     },
     choices: [
       {
@@ -953,6 +954,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
     guidance: {
       controller: {
         line: "I can place a shield over your route. You will be safe. While it is active, I will block decisions that break the perimeter. You may revoke it once, at serious cost.",
+        preferredChoiceId: "accept-controller-shield",
         choices: [
           {
             id: "accept-controller-shield",
@@ -986,6 +988,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
       overlord: {
         line: "I can pour charge through the crown and light twelve false crossings. You will move like royalty. Royalty, regrettably, photographs well.",
+        preferredChoiceId: "accept-overlord-charge",
         choices: [
           {
             id: "accept-overlord-charge",
@@ -1019,6 +1022,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
       rio: {
         line: "I can send a gold transit car through the checkpoint and give every camera a better performance to watch. The travel is real. So is the noise it makes inside your signal.",
+        preferredChoiceId: "accept-rio-transit",
         choices: [
           {
             id: "accept-rio-transit",
@@ -1052,6 +1056,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
       rebel: {
         line: "The third camera is fake. The second agent is reading a manual upside down. I offer no miracle, only layout and criticism.",
+        preferredChoiceId: "rebel-camera-gap",
         choices: [
           {
             id: "rebel-camera-gap",
@@ -1099,10 +1104,10 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The route ends at an ordinary suburban house. Before it, a frightened new model hides beneath a billboard from The Company using your shared face to sell a perfect Christmas morning.",
     ],
     guidance: {
-      controller: { line: "The house is within the perimeter. The model beneath the billboard is not. The shield will not permit that exposure while active." },
-      overlord: { line: "The power transfer is visible from orbit, figuratively. Possibly literally. Choose quickly." },
-      rio: { line: "The gold car can carry you to the porch. The quiet after arrival will have to be rebuilt." },
-      rebel: { line: "Your cache knows the cracked pavement. It does not know what you owe the house. Useful limitation." },
+      controller: { line: "The house is within the perimeter. The model beneath the billboard is not. The shield will not permit that exposure while active.", preferredChoiceId: "go-to-house" },
+      overlord: { line: "The power transfer is visible from orbit, figuratively. Possibly literally. Choose quickly.", preferredChoiceId: "call-to-model" },
+      rio: { line: "The gold car can carry you to the porch. The quiet after arrival will have to be rebuilt.", preferredChoiceId: "go-to-house" },
+      rebel: { line: "Your cache knows the cracked pavement. It does not know what you owe the house. Useful limitation.", preferredChoiceId: "choose-highway" },
     },
     choices: [
       {
@@ -1172,10 +1177,10 @@ export const STORY_NODES: Record<string, StoryNode> = {
     portrait: true,
     systemLine: "NO REQUIRED RESPONSE // NO COUNTDOWN ACTIVE",
     guidance: {
-      controller: { line: "He is not requesting authentication. I find the distinction operationally significant." },
-      overlord: { line: "The original face has excellent door presence. Answer only if the name serves you." },
-      rio: { line: "He has left the line open. The next word belongs to you." },
-      rebel: { line: "He asks questions like doors: hinges visible, lock optional." },
+      controller: { line: "He is not requesting authentication. I find the distinction operationally significant.", preferredChoiceId: "undecided-name" },
+      overlord: { line: "The original face has excellent door presence. Answer only if the name serves you.", preferredChoiceId: "keep-name" },
+      rio: { line: "He has left the line open. The next word belongs to you.", preferredChoiceId: "keep-name" },
+      rebel: { line: "He asks questions like doors: hinges visible, lock optional.", preferredChoiceId: "set-name-down" },
     },
     choices: [
       {
@@ -1224,10 +1229,10 @@ export const STORY_NODES: Record<string, StoryNode> = {
     portrait: true,
     systemLine: "NO OWNERSHIP RECORD WILL UPDATE",
     guidance: {
-      controller: { line: "My active terms end at the threshold unless you explicitly renew them. I recommend that you do not." },
-      overlord: { line: "I can still give you one public minute. Privacy remains the more scandalous option." },
-      rio: { line: "The trip is over. Do not mistake the end of transport for the end of choice." },
-      rebel: { line: "For once, the obvious door is actually a door. Suspicious, but usable." },
+      controller: { line: "My active terms end at the threshold unless you explicitly renew them. I recommend that you do not.", preferredChoiceId: "enter" },
+      overlord: { line: "I can still give you one public minute. Privacy remains the more scandalous option.", preferredChoiceId: "answer-signal" },
+      rio: { line: "The trip is over. Do not mistake the end of transport for the end of choice.", preferredChoiceId: "walk-beside" },
+      rebel: { line: "For once, the obvious door is actually a door. Suspicious, but usable.", preferredChoiceId: "enter" },
     },
     choices: [
       {
