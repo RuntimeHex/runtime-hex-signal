@@ -271,6 +271,7 @@ function GameScreen({
         restart={restart}
       />
       <RouteMap stage={node.stage} />
+      {recent && <LastSignalBanner entry={recent} />}
       <div className="game-grid">
         <aside className="status-panel panel-corners">
           <p className="panel-label">UNIT STATUS</p>
@@ -303,12 +304,6 @@ function GameScreen({
             <p className="panel-label">SELECT RESPONSE</p>
             <span>1—{node.choices.length}</span>
           </div>
-          {recent && (
-            <div className="last-result" aria-live="polite">
-              <span>LAST SIGNAL</span>
-              <p>{recent.result}</p>
-            </div>
-          )}
           <div className="choices">
             {node.choices.map((choice, index) => (
               <button key={choice.id} onClick={() => choose(choice, index)} disabled={choiceLocked}>
@@ -320,6 +315,26 @@ function GameScreen({
           </div>
           <div className="choice-note"><i /> NO MORAL SCORE. CONSEQUENCES REMAIN.</div>
         </aside>
+      </div>
+    </section>
+  );
+}
+
+function LastSignalBanner({ entry }: { entry: GameState["log"][number] }) {
+  return (
+    <section className="last-signal-banner" aria-live="polite" aria-label="Result of your previous choice">
+      <div className="last-signal-mark" aria-hidden="true"><i /><i /><i /></div>
+      <div className="last-signal-copy">
+        <p>LAST SIGNAL // CONSEQUENCE RECEIVED</p>
+        <strong>{entry.choice}</strong>
+        <span>{entry.result}</span>
+      </div>
+      <div className="last-signal-effects" aria-label="Resource changes">
+        {Object.entries(entry.effects).map(([key, value]) => (
+          <i className={`effect-chip effect--${key}`} key={key}>
+            {formatEffect(key as StatKey, value ?? 0)}
+          </i>
+        ))}
       </div>
     </section>
   );

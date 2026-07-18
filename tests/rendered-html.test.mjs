@@ -40,6 +40,10 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /role="meter"/);
   assert.match(app, /No account or data collection/);
   assert.match(app, /localStorage/);
+  assert.match(app, /LAST SIGNAL \/\/ CONSEQUENCE RECEIVED/);
+  assert.match(app, /Resource changes/);
   assert.match(css, /prefers-reduced-motion/);
+  assert.match(css, /\.last-signal-banner/);
+  assert.doesNotMatch(css, /\.last-result/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 });
