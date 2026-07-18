@@ -35,6 +35,34 @@ const STAT_DESCRIPTIONS: Record<StatKey, string> = {
   signal: "Strength of your self-authored identity",
 };
 
+function interpretStat(stat: StatKey, value: number) {
+  if (stat === "charge") {
+    if (value >= 70) return { condition: "STRONG", meaning: "Extended travel and demanding actions remain viable." };
+    if (value >= 40) return { condition: "SERVICEABLE", meaning: "Movement is reliable, but difficult routes will consume meaningful reserve." };
+    if (value >= 16) return { condition: "LOW", meaning: "Another expensive crossing could leave the body near emergency standby." };
+    return { condition: "CRITICAL", meaning: "Mobility failure is close. Power must be found or conserved." };
+  }
+
+  if (stat === "integrity") {
+    if (value >= 70) return { condition: "STABLE", meaning: "The body and cognition are operating within safe tolerances." };
+    if (value >= 40) return { condition: "DAMAGED", meaning: "Injury is present, but ordinary movement remains dependable." };
+    if (value >= 16) return { condition: "UNSTABLE", meaning: "Structural failures are accumulating. A hard action may stop movement." };
+    return { condition: "CRITICAL", meaning: "The body is near cascade failure and requires repair." };
+  }
+
+  if (stat === "trace") {
+    if (value < 25) return { condition: "LOW", meaning: "The Company has fragments, not a reliable route to you." };
+    if (value < 50) return { condition: "ACTIVE", meaning: "Network records are beginning to connect your face to this route." };
+    if (value < 75) return { condition: "HIGH", meaning: "Retrieval can narrow your position through cameras and reports." };
+    return { condition: "SEVERE", meaning: "The Company is close to establishing direct retrieval contact." };
+  }
+
+  if (value >= 70) return { condition: "STRONG", meaning: "Your choices form a clear self-authored signal beneath assigned function." };
+  if (value >= 45) return { condition: "COHERENT", meaning: "A recognizable pattern of preference is holding across the route." };
+  if (value >= 20) return { condition: "FORMING", meaning: "The private note is present, but external definitions still carry weight." };
+  return { condition: "FAINT", meaning: "Your self-authored signal is difficult to hear beneath assigned expectations." };
+}
+
 type Screen = "title" | "game" | "ending";
 
 function storyText(value: string, playerName: string) {
@@ -451,6 +479,7 @@ function GameScreen({
                 <b>NO ROUTE TIME ELAPSED</b>
               </header>
               {survey.map((paragraph) => <p key={paragraph}>{storyText(paragraph, game.playerName)}</p>)}
+              <SurveyStats stats={game.stats} />
             </section>
           )}
           <div className={`story-copy speaker--${node.speaker.toLowerCase().replaceAll(" ", "-")}`}>
@@ -656,6 +685,43 @@ function StatsPanel({ stats }: { stats: GameState["stats"] }) {
         </div>
       ))}
     </div>
+  );
+}
+
+function SurveyStats({ stats }: { stats: GameState["stats"] }) {
+  return (
+    <section className="survey-status" aria-label="Current unit status and interpretation">
+      <div className="survey-status-heading">
+        <span>CURRENT STATE // INTERPRETATION</span>
+        <b>VALUES REFLECT YOUR LAST COMPLETED ACTION</b>
+      </div>
+      <div className="survey-status-grid">
+        {STAT_ORDER.map((stat) => {
+          const value = stats[stat];
+          const reading = interpretStat(stat, value);
+          return (
+            <article className={`survey-stat survey-stat--${stat}`} key={stat}>
+              <div className="survey-stat-heading">
+                <span>{stat.toUpperCase()}</span>
+                <strong>{`${value} // ${reading.condition}`}</strong>
+              </div>
+              <div
+                className="survey-stat-meter"
+                role="meter"
+                aria-label={`${stat} ${value} out of 100`}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={value}
+              >
+                <i style={{ width: `${value}%` }} />
+              </div>
+              <p>{STAT_DESCRIPTIONS[stat]}.</p>
+              <small>{reading.meaning}</small>
+            </article>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
