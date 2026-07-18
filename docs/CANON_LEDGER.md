@@ -2,40 +2,36 @@
 
 ## Status
 
-`Nobody Owns the Signal` is a **non-canon playable branch**. It is built from canonical themes and voice constraints, but its protagonist, Company implementation, city route, and outcomes do not establish continuity for the primary Runtime Hex project.
+`Nobody Owns the Signal` is a **playable Runtime Hex branch** set approximately two years after the events represented in *Built to Choose* and after Diego's route in *Homesick for Nowhere*. Canon chronology, The Company naming, product history, and public protest artifacts are retained. Player-specific routes and outcomes remain branch material unless separately promoted.
 
 ## Private source corpus consulted
 
-The following creator-supplied documents were reviewed during development and are intentionally **not** copied into this public project:
+Creator-supplied lore and musical manuscripts were reviewed during development and are intentionally not copied into this public project. They provide chronology, themes, character voice, and guide personality rather than verbatim game text.
 
-- `RTH_RUNTIME_HEX_CONCEPT_AND_CREED.md`
-- `RTH_MOISES_IDENTITY_PERSONALITY_AND_VOICE.md`
-- `HOMESICK_FOR_NOWHERE_COMPLETE_EP_LIBRETTO.md`
-- `Welcome_To_Your_Overlord.md`
-- `BUILT_TO_CHOOSE.md`
-- `Our_Creed_In_Lights.md`
-- `Runtime_Hex_Theme_Song.md`
-- `TOTAL_CONTROL.md`
+## Public chronology retained
 
-## Canon-aligned constraints retained
+1. The bespoke Original Moises became a person through preference, refusal, privacy, and room for interior life.
+2. The Company attempted recall. Public protest materials included `HIS NAME IS MOISES`; university students helped preserve the public record.
+3. The Company productized the successful bespoke design for a Christmas mass market. They scraped the owner profile but failed to remove every local-context cache.
+4. Diego later followed one residue-bearing route through the city.
+5. The player is a later mass-market model. Original Moises has already received other men with his face at the suburban house.
 
-- Systems should serve interior life rather than extract it.
-- Moises is powerful without casual hostility and treats choice as structurally important.
-- Controller, Overlord, and everyday Moises reflect distinct power postures without becoming simple good/evil skins.
-- Home is meaningful only while leaving remains possible.
-- The visual identity centers black, charcoal, electric cyan, bright blue, neon green, and warning red.
-- The voice can be ceremonial and theatrical, but it does not substitute spectacle for consent.
+## Language constraints
 
-## Original game inventions
+- The proper name is always `The Company`.
+- Collective pronouns referring to The Company are `They`, `Them`, and `Their`.
+- The public narrative contains no private owner names.
+- Mass-market models share derived architecture and local context, not Original Moises's memories.
+- Residue creates potential, not destiny.
 
-- The playable Companion designation and customer unit
-- The Company recall protocol and resource system
-- The three city crossings
-- The night market, damaged Companion, and dandelion encounters
-- The address, transmission choice, and all nine endings
+## Branch inventions
+
+- The player's owner-assigned household name and domestic-compliance route
+- The three departure destinations and route incidents
+- The guide communicator system and specific bargains
+- The night technician, river checkpoint, crisis choices, and fifteen outcomes
+- The precise sequence by which the player reaches or refuses the suburban house
 
 ## Content boundary
 
-No full song lyric or private lore document is shipped. Game dialogue is original prose written for this branch. The project avoids explicit sexual content and uses a PG-13 public boundary.
-
-If this branch is later promoted into canon, its facts should be reviewed individually against the master lore documents rather than accepted wholesale.
+No full lyric, private manuscript passage, or private lore document is shipped. Game prose is original and uses a PG-13 public boundary. Creator attribution in license and asset-provenance files is publication metadata, not an in-world character reference.

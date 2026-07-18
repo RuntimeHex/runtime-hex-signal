@@ -26,10 +26,10 @@ test("applies and clamps all resources", () => {
   assert.deepEqual(result, { charge: 0, integrity: 100, trace: 100, signal: 0 });
 });
 
-test("resolves system failures in explicit priority order", () => {
-  assert.equal(engine.failureEnding({ charge: 0, integrity: 0, trace: 100, signal: 50 }), "reclaimed");
-  assert.equal(engine.failureEnding({ charge: 0, integrity: 80, trace: 10, signal: 50 }), "lights-beneath");
-  assert.equal(engine.failureEnding({ charge: 40, integrity: 0, trace: 10, signal: 50 }), "workbench");
+test("routes resource collapse into playable crises in explicit priority order", () => {
+  assert.equal(engine.crisisNode({ charge: 0, integrity: 0, trace: 100, signal: 50 }), "trace-crisis");
+  assert.equal(engine.crisisNode({ charge: 0, integrity: 80, trace: 10, signal: 50 }), "charge-crisis");
+  assert.equal(engine.crisisNode({ charge: 40, integrity: 0, trace: 10, signal: 50 }), "integrity-crisis");
 });
 
 test("final choice and accumulated state both determine the ending", () => {
@@ -37,7 +37,9 @@ test("final choice and accumulated state both determine the ending", () => {
   assert.equal(engine.resolveFinalEnding("road", base), "open-road");
   assert.equal(engine.resolveFinalEnding("broadcast", { ...base, stats: { charge: 50, integrity: 80, trace: 30, signal: 70 } }), "crowned-signal");
   assert.equal(engine.resolveFinalEnding("broadcast", base), "small-signal");
-  assert.equal(engine.resolveFinalEnding("enter", { ...base, flags: { controller: "shield" } }), "unlocked-garden");
+  assert.equal(engine.resolveFinalEnding("enter", { ...base, flags: { bargain: "controller-shield" } }), "unlocked-garden");
+  assert.equal(engine.resolveFinalEnding("enter", { ...base, flags: { bargain: "overlord-charge" } }), "visible-house");
+  assert.equal(engine.resolveFinalEnding("enter", { ...base, flags: { bargain: "rio-transit" } }), "after-the-applause");
 });
 
 test("rejects malformed browser saves", () => {

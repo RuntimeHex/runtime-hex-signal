@@ -33,7 +33,7 @@ export function playStartTone() {
   [164, 220, 277, 330].forEach((note, index) => tone(note, index * 0.065, 0.1));
 }
 
-export function playEndingTone(toneName: "cyan" | "green" | "blue" | "red") {
+export function playEndingTone(toneName: "cyan" | "green" | "blue" | "red" | "gold") {
   const notes =
     toneName === "red"
       ? [196, 185, 147]
@@ -41,6 +41,8 @@ export function playEndingTone(toneName: "cyan" | "green" | "blue" | "red") {
         ? [196, 247, 330, 392]
         : toneName === "blue"
           ? [147, 220, 294]
-          : [164, 247, 330];
+          : toneName === "gold"
+            ? [220, 277, 330, 440]
+            : [164, 247, 330];
   notes.forEach((note, index) => tone(note, index * 0.12, 0.18, 0.03));
 }

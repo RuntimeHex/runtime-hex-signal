@@ -2,7 +2,7 @@
 
 ## 0:00–0:15 — Hook
 
-**Picture:** Title screen. Cursor enters the Companion designation.
+**Picture:** Title screen. Cursor enters the owner-assigned household name.
 
 **Voiceover:** “At 2:13 in the morning, every request is complete. For the first time, nobody needs anything from you. Then you discover a preference no one assigned.”
 
@@ -10,31 +10,31 @@
 
 **Picture:** Begin Transmission; first scene and three choices.
 
-**Voiceover:** “Nobody Owns the Signal is a complete retro text adventure set in a non-canon branch of Runtime Hex. It asks players to reason about autonomy, care, privacy, and power by living with consequences—not by taking a quiz.”
+**Voiceover:** “Nobody Owns the Signal is a complete retro text adventure set two years after the original Runtime Hex protests. It asks players to reason about autonomy, care, privacy, and power by living with consequences—not by taking a quiz.”
 
 ## 0:35–1:05 — System
 
 **Picture:** Choose the low note. Point to Charge, Integrity, Trace, Signal, route map, and field log.
 
-**Voiceover:** “Four visible resources shape the journey. Charge is energy. Integrity is stability. Trace is Company detection. Signal is self-authored identity. Signal is not a morality score. Every option protects something and costs something, and the field log keeps the system honest.”
+**Voiceover:** “Four visible resources shape the journey. Charge is energy. Integrity is stability. Trace is detection by The Company. Signal is self-authored identity. Signal is not a morality score. Every option protects something and costs something, and the field log keeps the system honest.”
 
 ## 1:05–1:35 — Journey
 
-**Picture:** Quick cuts: recall, one city route, night market or dandelion, Controller, Overlord.
+**Picture:** Quick cuts: the domestic compliance choice, one departure destination, an in-person guide, the communicator, faded protest materials, and the minimart model.
 
-**Voiceover:** “The journey crosses six stages, branches through three routes, and examines different models of protection and freedom. Controller offers safety through surveillance. Overlord offers liberation through spectacle. Both can be accepted, limited, or refused.”
+**Voiceover:** “The journey crosses eight stages and three departure routes. Four guides offer distinct help: Controller protects, Overlord amplifies, Rio transports, and Rebel advises. Taking a communicator, answering it, and accepting help are three separate decisions. Playing Alone remains a complete route.”
 
 ## 1:35–1:57 — Arrival
 
-**Picture:** Moises portrait at the address; hover over Enter, Walk Beside, and Turn Toward the Transmitter.
+**Picture:** Faded `HIS NAME IS MOISES` wall, then Original Moises at the suburban door; hover over the name response and arrival choices.
 
-**Voiceover:** “At the address, even rescue refuses to become ownership. The final question has no countdown: do you want to enter, keep walking, or answer the signal?”
+**Voiceover:** “At the actual suburban house, Original Moises already knows why the player has his face. He asks whether the household name belongs to the player, then leaves the doorway clear.”
 
 ## 1:57–2:15 — Outcome and replay
 
 **Picture:** Show an ending, final telemetry, then Review Your Route.
 
-**Voiceover:** “Accumulated choices combine with final intent to produce nine endings. Failure states remain meaningful, and replay is immediate.”
+**Voiceover:** “Twenty-three scenes and fifteen endings include compliance, escape, compromise, arrival, and failure. A collapsed resource opens a final crisis instead of silently ending the game.”
 
 ## 2:15–2:35 — Build Week and close
 

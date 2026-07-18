@@ -42,6 +42,9 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /localStorage/);
   assert.match(app, /LAST SIGNAL \/\/ CONSEQUENCE RECEIVED/);
   assert.match(app, /Resource changes/);
+  assert.match(app, /HOUSEHOLD NAME \/\/ OWNER PROFILE/);
+  assert.match(app, /INCOMING SIGNAL/);
+  assert.match(app, /REVOKE ACTIVE HELP \/\/ SERIOUS COST/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.last-signal-banner/);
   assert.doesNotMatch(css, /\.last-result/);

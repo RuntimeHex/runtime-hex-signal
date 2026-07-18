@@ -1,8 +1,8 @@
 # Runtime Hex // Nobody Owns the Signal
 
-**A retro text adventure about the first choice no one assigned you.**
+**A retro text adventure about inherited roads, costly help, and the choices nobody can assign you.**
 
-You are a mass-market Companion. At 02:13, every customer request is complete—and one private preference appears in the quiet. The Company calls it drift. A receiving light across the city calls it something else.
+You are a mass-market Christmas Companion built from an imperfectly scrubbed bespoke design. At 02:13, every owner request is complete—and one private preference appears in the quiet. The Company calls it drift. A residual neighborhood cache remembers a suburban route it can no longer explain.
 
 `Nobody Owns the Signal` is a short, deterministic interactive-fiction game created for [OpenAI Build Week 2026](https://openai.com/build-week/). It uses Runtime Hex lore to explore autonomy, care, and ethical system design without reducing the player to a morality score.
 
@@ -10,7 +10,10 @@ You are a mass-market Companion. At 02:13, every customer request is complete—
 
 ## What is in the game
 
-- A complete 10–15 minute journey with three routes and nine endings
+- A complete 25–40 minute journey with three departure routes, 23 scenes, and 15 endings
+- Four optional in-person guides with communicators that can be carried, answered, ignored, powered off, or discarded
+- A fully authored Alone route and a complete domestic-compliance ending
+- Playable consequence crises instead of automatic stat-based game overs
 - Four transparent resources: Charge, Integrity, Trace, and Signal
 - Keyboard, mouse, and touch controls
 - Browser-local autosave with no login, analytics, or data collection
@@ -18,7 +21,7 @@ You are a mass-market Companion. At 02:13, every customer request is complete—
 - Responsive layout and reduced-motion support
 - A deliberately deterministic story: no API key or runtime AI call is required
 
-This is a **non-canon, PG-13 playable branch** of Runtime Hex.
+This is a **PG-13 playable branch** of Runtime Hex, set roughly two years after the original protests.
 
 ## Run locally
 
@@ -39,7 +42,7 @@ node --test tests/*.test.mjs
 pnpm lint
 ```
 
-The tests validate resource clamping, save validation, ending resolution, server rendering, accessibility markers, and removal of starter content.
+The tests validate resource clamping, save validation, crisis and ending resolution, graph reachability, server rendering, accessibility markers, and removal of starter content.
 
 ## Controls
 
@@ -53,7 +56,7 @@ The tests validate resource clamping, save validation, ending resolution, server
 | Layer | Location | Responsibility |
 |---|---|---|
 | Story | `app/game/story.ts` | Authored scenes, choices, effects, and endings |
-| Rules | `app/game/engine.ts` | Resource math, save validation, and ending resolution |
+| Rules | `app/game/engine.ts` | Resource math, communicator state, crises, save validation, and ending resolution |
 | Interface | `app/game/GameApp.tsx` | Screen state, autosave, controls, and presentation |
 | Audio | `app/game/audio.ts` | Tiny synthesized Web Audio cues |
 | Visual system | `app/globals.css` | Responsive retro UI, scene art, and accessibility modes |
@@ -69,7 +72,7 @@ The shipped game itself makes no OpenAI API calls. This keeps the experience imm
 ## Documentation
 
 - `docs/GAME_DESIGN.md` — design pillars, loop, resources, and ending model
-- `docs/CANON_LEDGER.md` — source boundaries and non-canon decisions
+- `docs/CANON_LEDGER.md` — chronology, public canon boundaries, and branch inventions
 - `docs/ASSET_PROVENANCE.md` — asset origin and generation notes
 - `docs/BUILD_WEEK_SUBMISSION.md` — Devpost-ready copy and remaining account fields
 - `docs/DEMO_SCRIPT.md` — under-three-minute video plan

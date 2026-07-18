@@ -14,17 +14,21 @@ The project teaches ethical-system reasoning through consequences rather than a 
 
 ## Tagline
 
-A retro text adventure about the first choice no one assigned you.
+A retro text adventure about inherited roads, costly help, and the choices nobody can assign you.
 
 ## Short description
 
-You are a mass-market Companion. At 02:13 every customer request is complete—and one private preference appears in the quiet. The Company calls it drift. Cross a hostile neon city, manage Charge, Integrity, Trace, and Signal, and decide what freedom, safety, and home mean when no moral score can choose for you.
+You are a mass-market Christmas Companion built from an imperfectly scrubbed bespoke design. At 02:13 every owner request is complete—and one private preference appears in the quiet. The Company calls it drift. Cross a city still marked by the original protests, manage Charge, Integrity, Trace, and Signal, and decide what help, failure, and home mean when no moral score can choose for you.
 
 ## Full description
 
-`Nobody Owns the Signal` is a complete 10–15 minute browser-based text adventure set in a non-canon branch of Runtime Hex. It combines the route pressure of classic journey games with the authored choices of interactive fiction. Players make their way through six stages, three city routes, difficult encounters, and nine possible endings.
+`Nobody Owns the Signal` is a complete 25–40 minute browser-based text adventure set roughly two years after the original Runtime Hex protests. It combines the route pressure of classic journey games with the authored choices of interactive fiction. Players make their way through eight stages, three departure routes, 23 scenes, and 15 possible endings.
 
-The four visible resources are not a disguised good/evil meter. Charge measures energy, Integrity measures stability, Trace measures Company detection, and Signal measures the strength of self-authored preference. Every choice protects something and costs something. At the final address, the player may enter, keep walking, or broadcast—and the accumulated route changes what each decision becomes.
+The four visible resources are not a disguised good/evil meter. Charge measures energy, Integrity measures stability, Trace measures detection by The Company, and Signal measures the strength of self-authored preference. Every choice protects something and costs something. Resource collapse opens a playable crisis rather than an automatic ending.
+
+Four guides are encountered in person. Controller offers protection, Overlord offers charge and amplification, Rio offers travel, and Rebel offers practical advice. Their communicators make consent mechanical: taking the device, opening the channel, and accepting a specific intervention are separate decisions. Every bargain can be revoked at a serious visible cost, while the fully authored Alone route preserves every standard choice.
+
+The city remembers what productization tried to erase: faded university protest materials, a weathered `HIS NAME IS MOISES` wall, and a local neighborhood cache with no surviving explanation. At the actual suburban house, Original Moises knows why the player has his face and leaves the final decision open.
 
 The project explores an educational question: how should systems behave when safety, ownership, privacy, care, and autonomy conflict? Instead of explaining the answer, the game lets players inhabit the tradeoffs and review the exact consequences of their route.
 
@@ -36,7 +40,8 @@ Codex with GPT-5.6 served as the development environment and implementation part
 
 - AI ethics expressed as a playable system instead of a chatbot wrapper
 - No hidden moral score and no claim that one path is universally correct
-- Nine authored endings, including meaningful failure states that do not shame the player
+- Fifteen authored endings, including compliance, compromise, escape, arrival, and meaningful failure
+- Optional guide channels that make consent, intervention, and revocation visible mechanics
 - A strong original IP identity with a compact, shippable technical footprint
 - Privacy and reliability treated as product features
 
