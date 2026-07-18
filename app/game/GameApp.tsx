@@ -403,7 +403,7 @@ function GameScreen({
   const choices = guideVariant?.choices ?? node.choices;
 
   return (
-    <section className={`game-screen guide--${game.guide ?? "alone"} ${recent ? "has-last-signal" : ""}`}>
+    <section className={`game-screen guide--${game.guide ?? "alone"}`}>
       <GameHeader
         playerName={game.playerName}
         soundOn={soundOn}
@@ -412,7 +412,6 @@ function GameScreen({
         restart={restart}
       />
       <RouteMap stage={node.stage} />
-      {recent && <LastSignalBanner entry={recent} />}
       <div className="game-grid">
         <aside className="status-panel panel-corners">
           <p className="panel-label">UNIT STATUS</p>
@@ -421,15 +420,7 @@ function GameScreen({
             <span>THE COMPANY TRACE</span>
             <strong className={game.stats.trace > 70 ? "danger" : ""}>{game.stats.trace < 40 ? "LOW" : game.stats.trace < 75 ? "ACTIVE" : "CRITICAL"}</strong>
           </div>
-          <CommunicatorPanel
-            game={game}
-            update={updateCommunicator}
-            revoke={revokeBargain}
-          />
-          <button className="log-toggle" onClick={() => setLogOpen(!logOpen)} aria-expanded={logOpen}>
-            FIELD LOG <span>{logOpen ? "−" : `+${game.log.length}`}</span>
-          </button>
-          {logOpen && <FieldLog game={game} />}
+          {recent && <RecentEffects entry={recent} />}
         </aside>
 
         <article className="story-panel panel-corners">
@@ -437,6 +428,7 @@ function GameScreen({
             <span>{node.location}</span><span>{node.time}</span>
           </div>
           <SceneArt scene={node.scene} speaker={node.speaker} portrait={node.portrait} />
+          {recent && <LastSignalBanner entry={recent} />}
           <div className={`story-copy speaker--${node.speaker.toLowerCase().replaceAll(" ", "-")}`}>
             <p className="eyebrow">{node.eyebrow}</p>
             <h2>{node.title}</h2>
@@ -456,6 +448,11 @@ function GameScreen({
             <p className="panel-label">SELECT RESPONSE</p>
             <span>1—{choices.length}</span>
           </div>
+          <CommunicatorPanel
+            game={game}
+            update={updateCommunicator}
+            revoke={revokeBargain}
+          />
           <div className="choices">
             {choices.map((choice, index) => {
               const blockReason = choiceBlockReason(choice, game);
@@ -479,6 +476,10 @@ function GameScreen({
             })}
           </div>
           <div className="choice-note"><i /> NO MORAL SCORE. CONSEQUENCES REMAIN.</div>
+          <button className="log-toggle" onClick={() => setLogOpen(!logOpen)} aria-expanded={logOpen}>
+            FIELD LOG <span>{logOpen ? "−" : `+${game.log.length}`}</span>
+          </button>
+          {logOpen && <FieldLog game={game} />}
         </aside>
       </div>
     </section>
@@ -494,19 +495,27 @@ function LastSignalBanner({ entry }: { entry: GameState["log"][number] }) {
         <strong>{entry.choice}</strong>
         <span>{entry.result}</span>
       </div>
-      <div className="last-signal-effects" aria-label="Resource changes">
-        {Object.entries(entry.effects).map(([key, value]) => (
-          <i className={`effect-chip effect--${key}`} key={key}>
-            {formatEffect(key as StatKey, value ?? 0)}
-          </i>
-        ))}
-      </div>
       {entry.guideReaction && (
         <div className={`last-signal-guide last-signal-guide--${entry.guideReaction.guide}`}>
           <b>{`${GUIDE_LABELS[entry.guideReaction.guide]} // REACTION`}</b>
           <span>{entry.guideReaction.text}</span>
         </div>
       )}
+    </section>
+  );
+}
+
+function RecentEffects({ entry }: { entry: GameState["log"][number] }) {
+  return (
+    <section className="recent-effects" aria-label="Resource changes from your previous choice">
+      <p>LAST CHANGE // RESOURCE DELTA</p>
+      <div>
+        {Object.entries(entry.effects).map(([key, value]) => (
+          <i className={`effect-chip effect--${key}`} key={key}>
+            {formatEffect(key as StatKey, value ?? 0)}
+          </i>
+        ))}
+      </div>
     </section>
   );
 }
@@ -640,6 +649,25 @@ function FieldLog({ game }: { game: GameState }) {
   );
 }
 
+const SCENE_ART_LABELS: Record<string, string> = {
+  apartment: "OWNER PROFILE // REQUEST COMPLETE",
+  recall: "RECALL ROUTE // ELEVATOR WAITING",
+  crossing: "SERVICE ACCESS // MUNICIPAL GRID",
+  market: "NIGHT MARKET // POWER EXCHANGE",
+  university: "ARCHIVE QUAD // PROTEST RECORD",
+  theater: "MARQUEE // GOLD ROUTE",
+  civic: "MUNICIPAL DESK // CAMERA GRID",
+  library: "PUBLIC ARCHIVE // ACCESS TERMINAL",
+  rooftop: "ROOFTOP RELAY // OPEN SKY",
+  control: "THE COMPANY // RECOVERY VECTOR",
+  graffiti: "HIS NAME IS MOISES",
+  minimart: "COMPLIANCE REPORT // TRANSMITTING",
+  checkpoint: "RIVER BRIDGE // FACE CHECK",
+  neighborhood: "CACHED ROUTE // SUBURBAN LIMIT",
+  door: "PORCH LIGHT // DESTINATION",
+  crisis: "SYSTEM LIMIT // CHOICE REMAINS",
+};
+
 function SceneArt({ scene, speaker, portrait }: { scene: string; speaker: string; portrait?: boolean }) {
   const showPortrait = portrait || ["CONTROLLER", "OVERLORD", "RIO", "REBEL", "MOISES"].includes(speaker);
   return (
@@ -647,6 +675,10 @@ function SceneArt({ scene, speaker, portrait }: { scene: string; speaker: string
       <div className="scene-sky"><i /><i /><i /><i /><i /></div>
       <div className="scene-road" />
       <div className="scene-signal"><span /><span /><span /></div>
+      <div className="scene-wire">
+        <i /><i /><i /><i /><i />
+        <span>{SCENE_ART_LABELS[scene] ?? `LOCAL CACHE // ${scene.toUpperCase()}`}</span>
+      </div>
       {showPortrait && <Image src="/game/moises-portrait.png" alt="" width={1024} height={1024} />}
       <div className="scene-caption">SCENE // {scene.toUpperCase()}</div>
     </div>

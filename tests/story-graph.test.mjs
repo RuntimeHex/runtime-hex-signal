@@ -4,6 +4,7 @@ import test from "node:test";
 import ts from "typescript";
 
 const source = await readFile(new URL("../app/game/story.ts", import.meta.url), "utf8");
+const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 const javascript = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
 }).outputText;
@@ -60,6 +61,14 @@ test("every authored scene is reachable through a normal or crisis route", () =>
   }
 
   assert.deepEqual([...Object.keys(nodes).filter((id) => !reachable.has(id))], []);
+});
+
+test("every scene type has a curated wireframe composition", () => {
+  const scenes = new Set(Object.values(story.STORY_NODES).map((node) => node.scene));
+  assert.ok(scenes.size >= 16);
+  for (const scene of scenes) {
+    assert.match(css, new RegExp(`\\.scene--${scene} \\.scene-wire`), `${scene} uses only the generic scene art`);
+  }
 });
 
 test("the game ships the promised distinct endings", () => {
