@@ -48,6 +48,8 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /SCENE_ART_LABELS/);
   assert.match(app, /SURVEY THIS LOCATION/);
   assert.match(app, /NO ROUTE TIME ELAPSED/);
+  assert.ok(app.indexOf("<SceneArt") < app.indexOf("<LastSignalBanner"));
+  assert.ok(app.indexOf("<LastSignalBanner") < app.indexOf('className="location-row"'));
   assert.match(app, /CURRENT STATE \/\/ INTERPRETATION/);
   assert.match(app, /VALUES REFLECT YOUR LAST COMPLETED ACTION/);
   assert.match(app, /role="meter"/);

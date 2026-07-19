@@ -456,6 +456,8 @@ function GameScreen({
         </aside>
 
         <article className="story-panel panel-corners">
+          <SceneArt scene={node.scene} speaker={node.speaker} portrait={node.portrait} />
+          {recent && <LastSignalBanner entry={recent} />}
           <div className="location-row">
             <span>{node.location}</span>
             <button
@@ -470,8 +472,6 @@ function GameScreen({
             </button>
             <span>{node.time}</span>
           </div>
-          <SceneArt scene={node.scene} speaker={node.speaker} portrait={node.portrait} />
-          {recent && <LastSignalBanner entry={recent} />}
           {surveyOpen && (
             <section className="location-survey" id={`location-survey-${node.id}`}>
               <header>

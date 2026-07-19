@@ -241,7 +241,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--green); out
 .field-log i { display: inline-block; margin: .1rem .25rem .1rem 0; color: var(--green); font-size: .45rem; font-style: normal; }
 
 /* Story */
-.story-panel { display: grid; grid-template-rows: auto minmax(240px, 43vh); grid-auto-rows: auto; align-content: start; overflow: auto; }
+.story-panel { display: grid; grid-template-rows: minmax(240px, 43vh); grid-auto-rows: auto; align-content: start; overflow: auto; }
 .location-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 1rem; padding: .58rem 1.2rem; border-bottom: 1px solid #112832; color: #64828d; font-size: .58rem; letter-spacing: .15em; }
 .location-row > span:last-child { text-align: right; }
 .survey-toggle { display: flex; align-items: center; gap: .5rem; padding: .38rem .58rem; border: 1px solid #185064; background: rgba(0,231,255,.035); color: #8ad7e5; font-size: .48rem; letter-spacing: .12em; white-space: nowrap; cursor: pointer; }
@@ -580,7 +580,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--green); out
   .last-signal-copy span { margin-top: .24rem; }
   .last-signal-guide { grid-column: 1 / -1; grid-template-columns: 1fr; gap: .3rem; }
   .game-grid { display: flex; flex-direction: column; }
-  .story-panel { order: 1; grid-template-rows: auto minmax(220px, 34vh); grid-auto-rows: auto; }
+  .story-panel { order: 1; grid-template-rows: minmax(220px, 34vh); grid-auto-rows: auto; }
   .location-row { grid-template-columns: 1fr auto; gap: .65rem; }
   .location-row > span:first-child { grid-column: 1 / -1; }
   .location-row > span:last-child { grid-column: 2; grid-row: 2; }
