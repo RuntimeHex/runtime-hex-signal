@@ -110,6 +110,24 @@ test("guide consent stays layered and every shared scene has an Alone version", 
   assert.ok(controllerBlock?.blockedWhen.reason.includes("CONTROLLER SHIELD"));
 });
 
+test("each guide has exactly one discovery route and civic remains deliberately Alone", () => {
+  const meetingByGuide = {
+    rebel: "rebel-meeting",
+    controller: "controller-meeting",
+    rio: "rio-meeting",
+    overlord: "overlord-meeting",
+  };
+
+  for (const [guide, meetingId] of Object.entries(meetingByGuide)) {
+    const discoveries = Object.values(story.STORY_NODES).flatMap((node) =>
+      node.choices.filter((choice) => choice.next === meetingId),
+    );
+    assert.equal(discoveries.length, 1, `${guide} should have exactly one discovery route`);
+  }
+
+  assert.ok(story.STORY_NODES.civic.choices.every((choice) => choice.next === "civic-cross" && !choice.guide));
+});
+
 test("every guide recommendation points to a choice the player can see", () => {
   for (const [nodeId, node] of Object.entries(story.STORY_NODES)) {
     for (const [guide, variant] of Object.entries(node.guidance ?? {})) {
