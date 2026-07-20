@@ -409,6 +409,7 @@ function TitleScreen({
         <div className="title-keyart" aria-hidden="true">
           <Image src="/og.png" alt="" width={1731} height={909} priority unoptimized />
         </div>
+        <div className="title-actions">
         <h1 className="visually-hidden"><span>NOBODY OWNS</span><strong>THE SIGNAL</strong></h1>
         <p className="kicker"><span>RUNTIME HEX</span>{" // A PLAYABLE BRANCH"}</p>
         <p className="title-deck">A retro text adventure about inherited roads, costly help, and the choices nobody can assign you.</p>
@@ -433,6 +434,7 @@ function TitleScreen({
           <button className="primary-button" type="submit"><span>BEGIN TRANSMISSION</span><b aria-hidden="true">›</b></button>
           {hasSave && <button className="secondary-button" type="button" onClick={continueGame}>CONTINUE LAST SIGNAL</button>}
         </form>
+        </div>
       </div>
 
       <footer className="title-footer">

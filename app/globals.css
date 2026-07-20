@@ -100,12 +100,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--green); out
 .title-topbar { border-bottom: 1px solid rgba(0, 231, 255, .12); }
 .brand-mark { width: 74px; height: 50px; object-fit: contain; object-position: center; image-rendering: pixelated; mix-blend-mode: screen; }
 .topbar-actions { display: flex; gap: 1.4rem; }
-.title-lockup { width: min(1120px, calc(100% - 2rem)); margin: auto; padding: clamp(1.5rem, 4vw, 3.5rem) 0 6rem; text-align: center; position: relative; z-index: 2; }
+.title-lockup { width: min(1480px, calc(100% - 2rem)); margin: auto; padding: clamp(1.5rem, 4vw, 3.5rem) 0 6rem; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(360px, .68fr); align-items: center; gap: clamp(1.5rem, 3vw, 3rem); text-align: center; position: relative; z-index: 2; }
 .title-keyart { position: relative; overflow: hidden; border: 1px solid rgba(0, 231, 255, .22); background: #020609; box-shadow: 0 0 36px rgba(0, 128, 255, .12), inset 0 0 0 1px rgba(57, 255, 114, .05); }
 .title-keyart::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, .12) 4px); mix-blend-mode: multiply; }
 .title-keyart img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
-.title-lockup > .kicker, .title-lockup > .title-deck, .title-lockup > .signal-rule { width: min(700px, 100%); margin-left: auto; margin-right: auto; }
-.title-lockup > .kicker { margin-top: 1.4rem; }
+.title-actions { min-width: 0; }
+.title-actions > .kicker, .title-actions > .title-deck, .title-actions > .signal-rule { width: min(700px, 100%); margin-left: auto; margin-right: auto; }
 .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
 .kicker, .eyebrow, .panel-label { color: var(--cyan); font-size: .69rem; font-weight: 800; letter-spacing: .22em; }
 .kicker span { color: var(--green); }
@@ -570,6 +570,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--green); out
   .choice-panel .log-toggle, .choice-panel .field-log { grid-column: 1; }
   .choice-panel .log-toggle { margin-top: 1rem; }
   .choices button { min-height: 112px; }
+}
+
+@media (max-width: 900px) {
+  .title-lockup { width: min(760px, calc(100% - 2rem)); grid-template-columns: 1fr; padding-top: 1.25rem; }
+  .title-actions { width: min(520px, 100%); margin: 0 auto; }
 }
 
 @media (max-width: 720px) {

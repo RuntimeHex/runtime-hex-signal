@@ -58,6 +58,7 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /choice--guide-preferred/);
   assert.match(app, /PREFERRED/);
   assert.match(app, /HOUSEHOLD NAME \/\/ OWNER PROFILE/);
+  assert.match(app, /title-actions/);
   assert.match(app, /autoFocus/);
   assert.match(app, /INCOMING SIGNAL/);
   assert.match(app, /REVOKE ACTIVE HELP \/\/ SERIOUS COST/);
@@ -85,6 +86,8 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(css, /runtime-hex-identity/);
   assert.match(css, /\.brand-mark[^}]*image-rendering:\s*pixelated/);
   assert.match(css, /\.title-keyart img[^}]*image-rendering:\s*pixelated/);
+  assert.match(css, /\.title-lockup[^}]*grid-template-columns/);
+  assert.match(css, /@media \(max-width:\s*900px\)[\s\S]*?\.title-lockup[^}]*grid-template-columns:\s*1fr/);
   assert.match(css, /\.game-brand img[^}]*image-rendering:\s*pixelated/);
   assert.match(css, /\.ending-header img[^}]*image-rendering:\s*pixelated/);
   assert.doesNotMatch(css, /\.game-screen\.has-last-signal/);
