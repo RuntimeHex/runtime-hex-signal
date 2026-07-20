@@ -29,6 +29,7 @@ Creator-supplied lore and musical manuscripts were reviewed during development a
 - The player's owner-assigned household name and domestic-compliance route
 - The three departure destinations and route incidents
 - The guide communicator system and specific bargains
+- The secret Runtime Hex creator channel, which is a meta easter egg rather than world canon
 - The night technician, river checkpoint, crisis choices, and fifteen outcomes
 - The precise sequence by which the player reaches or refuses the suburban house
 

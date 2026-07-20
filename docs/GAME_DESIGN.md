@@ -40,9 +40,12 @@ The eight stages are Wake, Decide, Leave, Cross, Connect, Choose, Remember, and 
 | Overlord | Electric blue/cyan | Charge, decoys, amplification | Exposure and Trace |
 | Rio | Gold | Travel, timing, theatrical extraction | The spectacle overwhelms Signal |
 | Rebel | Neon green | Diagnostics, route knowledge, snark | No bargain; advice only |
+| Runtime Hex | Cyan/green | Secret creator commentary and recommendations from the opening | No intervention or bargain; activated only by the names `RTH`, `RT Hex`, or `Runtime Hex` |
 | Alone | White/charcoal | Full standard choice set and more internal space | No rescue or colored interpretation |
 
 The player meets a guide physically. Accepting a communicator does not open it. Opening it does not accept help. Accepting help does not make the bargain permanent: it can be revoked once at a serious, explicit cost.
+
+Runtime Hex is the deliberate exception: a meta-level easter egg rather than an in-world encounter. His creator channel begins open, can recommend visible choices, and never gains intervention authority.
 
 ## Public world details
 
