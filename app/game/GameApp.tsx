@@ -293,6 +293,14 @@ export function GameApp() {
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
+      const target = event.target;
+      const isTyping =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement ||
+        (target instanceof HTMLElement && target.isContentEditable);
+      if (isTyping) return;
+
       if (event.key.toLowerCase() === "m") {
         toggleSound();
         return;
@@ -411,6 +419,7 @@ function TitleScreen({
               id="player-name"
               value={playerName}
               onChange={(event) => setPlayerName(event.target.value.slice(0, 18))}
+              autoFocus
               autoComplete="off"
               spellCheck={false}
               aria-describedby="name-help"

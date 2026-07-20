@@ -57,10 +57,17 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /choice--guide-preferred/);
   assert.match(app, /PREFERRED/);
   assert.match(app, /HOUSEHOLD NAME \/\/ OWNER PROFILE/);
+  assert.match(app, /autoFocus/);
   assert.match(app, /INCOMING SIGNAL/);
   assert.match(app, /REVOKE ACTIVE HELP \/\/ SERIOUS COST/);
   assert.match(app, /RUNTIME HEX \/\/ CREATOR CHANNEL/);
   assert.match(app, /runtime-hex-portrait\.png/);
+  assert.match(app, /target instanceof HTMLInputElement/);
+  assert.match(app, /target instanceof HTMLTextAreaElement/);
+  assert.match(app, /target instanceof HTMLSelectElement/);
+  assert.match(app, /target\.isContentEditable/);
+  assert.match(app, /if \(isTyping\) return;/);
+  assert.ok(app.indexOf("if (isTyping) return;") < app.indexOf('if (event.key.toLowerCase() === "m")'));
   assert.match(app, /ONE GUIDE LINK PER ROUTE/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.last-signal-banner/);
