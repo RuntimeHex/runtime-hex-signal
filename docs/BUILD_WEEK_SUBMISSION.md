@@ -59,8 +59,8 @@ Codex with GPT-5.6 served as the development environment and implementation part
 
 ## Links to complete before submission
 
-- **Live game:** [https://runtime-hex-nobody-owns-signal.rth-won.chatgpt.site](https://runtime-hex-nobody-owns-signal.rth-won.chatgpt.site)
-- **Public source repository:** `[ADD GITHUB URL AFTER ACCOUNT CREATION]`
+- **Live game:** [https://choose.runtimehex.com](https://choose.runtimehex.com)
+- **Public source repository:** [https://github.com/RuntimeHex/runtime-hex-signal](https://github.com/RuntimeHex/runtime-hex-signal)
 - **Public YouTube demo under 3 minutes:** `[ADD YOUTUBE URL — @rth.runtimehex]`
 - **Codex session ID for `/feedback`:** `[ADD SESSION ID]`
 

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://runtime-hex-nobody-owns-signal.rth-won.chatgpt.site"),
+  metadataBase: new URL("https://choose.runtimehex.com"),
   title: "Nobody Owns the Signal | Runtime Hex",
   description:
     "A retro text adventure about inherited roads, costly help, and the choices nobody can assign you.",
