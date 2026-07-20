@@ -6,7 +6,7 @@ You are a mass-market Christmas Companion built from an imperfectly scrubbed bes
 
 `Nobody Owns the Signal` is a short, deterministic interactive-fiction game created for [OpenAI Build Week 2026](https://openai.com/build-week/). It uses Runtime Hex lore to explore autonomy, care, and ethical system design without reducing the player to a morality score.
 
-**Play:** [runtime-hex-nobody-owns-signal.rth-won.chatgpt.site](https://runtime-hex-nobody-owns-signal.rth-won.chatgpt.site)
+**Play:** [choose.runtimehex.com](https://choose.runtimehex.com)
 
 ## What is in the game
 
