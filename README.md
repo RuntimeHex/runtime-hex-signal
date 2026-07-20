@@ -17,7 +17,7 @@ You are a mass-market Christmas Companion built from an imperfectly scrubbed bes
 - Four transparent resources: Charge, Integrity, Trace, and Signal
 - Keyboard, mouse, and touch controls
 - Browser-local autosave with no login, analytics, or data collection
-- Original retro interface, generated pixel portrait, and Web Audio chiptune cues
+- Original retro interface, generated pixel portrait, and MIDI-derived Runtime Hex chiptune score
 - Responsive layout and reduced-motion support
 - A deliberately deterministic story: no API key or runtime AI call is required
 
@@ -58,7 +58,7 @@ The tests validate resource clamping, save validation, crisis and ending resolut
 | Story | `app/game/story.ts` | Authored scenes, choices, effects, and endings |
 | Rules | `app/game/engine.ts` | Resource math, communicator state, crises, save validation, and ending resolution |
 | Interface | `app/game/GameApp.tsx` | Screen state, autosave, controls, and presentation |
-| Audio | `app/game/audio.ts` | Tiny synthesized Web Audio cues |
+| Audio | `app/game/audio.ts`, `app/game/score-data.ts` | Reactive Web Audio playback of creator-owned MIDI reductions |
 | Visual system | `app/globals.css` | Responsive retro UI, scene art, and accessibility modes |
 
 The separation is intentional: story content can change without rewriting the rule engine, and rules can be tested without rendering the interface.
@@ -76,6 +76,7 @@ The shipped game itself makes no OpenAI API calls. This keeps the experience imm
 - `docs/ASSET_PROVENANCE.md` — asset origin and generation notes
 - `docs/BUILD_WEEK_SUBMISSION.md` — Devpost-ready copy and remaining account fields
 - `docs/DEMO_SCRIPT.md` — under-three-minute video plan
+- `docs/MUSIC_CUE_LEDGER.md` — source themes, timestamps, reductions, and trigger map
 - `CONTENT_LICENSE.md` — rights boundary for Runtime Hex content and assets
 
 ## License

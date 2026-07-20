@@ -8,7 +8,7 @@
 | `public/game/moises-portrait.png` | Generated with OpenAI's built-in image generation through Codex | Derived from private creator-supplied Moises identity references; prompt below |
 | `public/og.png` | Generated with OpenAI's built-in image generation through Codex | Social preview card; prompt recorded below after final generation |
 | Scene imagery | Authored CSS | Original buildings, roadway, signal rings, scanlines, and lighting |
-| Sound cues | Authored Web Audio oscillators | No sampled or third-party music files |
+| Runtime Hex score | Creator-owned MIDI compositions reduced into authored note data and synthesized with Web Audio | No recordings, samples, streams, or third-party music files are shipped; see `MUSIC_CUE_LEDGER.md` |
 
 ## Private references not shipped
 
