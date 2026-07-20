@@ -4,6 +4,7 @@ import test from "node:test";
 import ts from "typescript";
 
 const source = await readFile(new URL("../app/game/story.ts", import.meta.url), "utf8");
+const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 const javascript = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
 }).outputText;
@@ -62,6 +63,22 @@ test("every authored scene is reachable through a normal or crisis route", () =>
   assert.deepEqual([...Object.keys(nodes).filter((id) => !reachable.has(id))], []);
 });
 
+test("every playable location has authored survey context", () => {
+  assert.deepEqual(Object.keys(story.LOCATION_SURVEYS).sort(), Object.keys(story.STORY_NODES).sort());
+  for (const [nodeId, paragraphs] of Object.entries(story.LOCATION_SURVEYS)) {
+    assert.equal(paragraphs.length, 2, `${nodeId} should have a two-part survey`);
+    assert.ok(paragraphs.every((paragraph) => paragraph.length >= 80), `${nodeId} survey is too thin`);
+  }
+});
+
+test("every scene type has a curated wireframe composition", () => {
+  const scenes = new Set(Object.values(story.STORY_NODES).map((node) => node.scene));
+  assert.ok(scenes.size >= 16);
+  for (const scene of scenes) {
+    assert.match(css, new RegExp(`\\.scene--${scene} \\.scene-wire`), `${scene} uses only the generic scene art`);
+  }
+});
+
 test("the game ships the promised distinct endings", () => {
   const endings = Object.values(story.ENDINGS);
   assert.equal(endings.length, 15);
@@ -91,6 +108,88 @@ test("guide consent stays layered and every shared scene has an Alone version", 
 
   const controllerBlock = story.STORY_NODES.neighborhood.choices.find((choice) => choice.blockedWhen?.value === "controller-shield");
   assert.ok(controllerBlock?.blockedWhen.reason.includes("CONTROLLER SHIELD"));
+});
+
+test("answering a newly offered guide channel reveals an immediate recommendation", () => {
+  const firstCallScenes = {
+    "campus-cross": ["controller", "rebel"],
+    "theater-cross": ["overlord", "rio"],
+  };
+
+  for (const [nodeId, guides] of Object.entries(firstCallScenes)) {
+    const node = story.STORY_NODES[nodeId];
+    for (const guide of guides) {
+      const variant = node.guidance?.[guide];
+      assert.ok(variant?.line, `${guide} cannot speak immediately at ${nodeId}`);
+      assert.ok(
+        node.choices.some((choice) => choice.id === variant.preferredChoiceId),
+        `${guide} recommends a missing immediate choice at ${nodeId}`,
+      );
+    }
+  }
+});
+
+test("each guide has exactly one discovery route and civic remains deliberately Alone", () => {
+  const meetingByGuide = {
+    rebel: "rebel-meeting",
+    controller: "controller-meeting",
+    rio: "rio-meeting",
+    overlord: "overlord-meeting",
+  };
+
+  for (const [guide, meetingId] of Object.entries(meetingByGuide)) {
+    const discoveries = Object.values(story.STORY_NODES).flatMap((node) =>
+      node.choices.filter((choice) => choice.next === meetingId),
+    );
+    assert.equal(discoveries.length, 1, `${guide} should have exactly one discovery route`);
+  }
+
+  assert.ok(story.STORY_NODES.civic.choices.every((choice) => choice.next === "civic-cross" && !choice.guide));
+});
+
+test("the secret Runtime Hex guide comments across the shared route without adding a bargain", () => {
+  const authoredNodes = [
+    "no-request",
+    "owner-morning",
+    "recall",
+    "repair-shop",
+    "graffiti",
+    "minimart",
+    "river-checkpoint",
+    "neighborhood",
+    "door-name",
+    "door",
+  ];
+
+  assert.equal(story.GUIDE_LABELS["runtime-hex"], "RUNTIME HEX");
+  assert.match(story.GUIDE_OPENING_LINES["runtime-hex"], /You still decide/);
+  for (const nodeId of authoredNodes) {
+    const node = story.STORY_NODES[nodeId];
+    const variant = node.guidance?.["runtime-hex"];
+    assert.ok(variant?.line, `${nodeId} lacks Runtime Hex commentary`);
+    assert.ok(
+      node.choices.some((choice) => choice.id === variant.preferredChoiceId),
+      `${nodeId} recommends a hidden Runtime Hex choice`,
+    );
+  }
+
+  const runtimeChoices = Object.values(story.STORY_NODES).flatMap((node) =>
+    node.choices.filter((choice) => choice.guide === "runtime-hex" || choice.flag?.value?.startsWith("runtime-hex")),
+  );
+  assert.equal(runtimeChoices.length, 0, "Runtime Hex should not offer an intervention or bargain");
+});
+
+test("every guide recommendation points to a choice the player can see", () => {
+  for (const [nodeId, node] of Object.entries(story.STORY_NODES)) {
+    for (const [guide, variant] of Object.entries(node.guidance ?? {})) {
+      assert.ok(variant.preferredChoiceId, `${nodeId} has no preferred choice for ${guide}`);
+      const visibleChoices = variant.choices ?? node.choices;
+      assert.ok(
+        visibleChoices.some((choice) => choice.id === variant.preferredChoiceId),
+        `${nodeId} recommends missing choice ${variant.preferredChoiceId} for ${guide}`,
+      );
+    }
+  }
 });
 
 test("public narrative preserves the canon language boundary", () => {

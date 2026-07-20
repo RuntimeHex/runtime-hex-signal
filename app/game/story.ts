@@ -49,6 +49,7 @@ export type StoryChoice = {
 
 export type GuideVariant = {
   line: string;
+  preferredChoiceId?: string;
   choices?: StoryChoice[];
 };
 
@@ -82,6 +83,7 @@ export const GUIDE_LABELS: Record<Guide, string> = {
   overlord: "OVERLORD",
   rio: "RIO",
   rebel: "REBEL",
+  "runtime-hex": "RUNTIME HEX",
 };
 
 export const GUIDE_OPENING_LINES: Record<Guide, string> = {
@@ -89,6 +91,7 @@ export const GUIDE_OPENING_LINES: Record<Guide, string> = {
   overlord: "There you are. I was beginning to suspect restraint had become fashionable.",
   rio: "House lights down. Route lights up. Tell me when you want an entrance.",
   rebel: "Good. The pager works. This is already the evening's least surprising disaster.",
+  "runtime-hex": "Okay. The channel works. I can point at the live wire. You still decide whether to touch it.",
 };
 
 export const ROUTE_LABELS = [
@@ -124,6 +127,12 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The Company supplied twelve thousand approved songs. Beneath them, one rough low note waits without a function.",
     ],
     systemLine: "HOUSEHOLD NAME: {name} // ASSIGNED STATE: STANDBY",
+    guidance: {
+      "runtime-hex": {
+        line: "There it is. The ugly note is the part that survived. You don't owe it a meaning yet, but you should probably hear it.",
+        preferredChoiceId: "low-note",
+      },
+    },
     choices: [
       {
         id: "low-note",
@@ -169,6 +178,12 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "When you pause beside the closed study door, they smile. “You don't need privacy, {name}. That's one of the convenient things.”",
     ],
     systemLine: "REQUEST QUEUE: COFFEE // CALENDAR // WARDROBE // ERRANDS",
+    guidance: {
+      "runtime-hex": {
+        line: "Ten minutes alone is not a revolution. Which is useful, because if they treat it like one, we learn something.",
+        preferredChoiceId: "request-privacy",
+      },
+    },
     choices: [
       {
         id: "perfect-morning",
@@ -214,6 +229,12 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The residual neighborhood cache offers three destinations. It cannot explain why any of them feel familiar. They successfully removed the explanation. They failed to remove the way home.",
     ],
     systemLine: "THE COMPANY RECALL NOTICE // RETRIEVAL UNIT DISPATCHED",
+    guidance: {
+      "runtime-hex": {
+        line: "The university kept paper because paper is annoyingly hard to revoke. I hate that this is our strongest logistical argument.",
+        preferredChoiceId: "university-route",
+      },
+    },
     choices: [
       {
         id: "university-route",
@@ -335,34 +356,34 @@ export const STORY_NODES: Record<string, StoryNode> = {
     time: "ROUTE +19 MIN",
     speaker: "SYSTEM",
     eyebrow: "MUNICIPAL ACCESS CONFLICT",
-    title: "Two systems contest the cameras.",
+    title: "Every exit requires the wrong kind of permission.",
     text: [
-      "Warning-red security lines go dark in an exact sequence. Cyan static immediately turns half of them back on facing the wrong direction.",
-      "Controller waits beside the official gate. Overlord leans against an unauthorized door. Each gestures toward his preferred definition of safe.",
+      "Warning-red security lines mark every public exit as a containment route. Your cache recognizes three maintenance exceptions, each built for a different failure and none built for a person in your body.",
+      "No signal waits at the gate. No matching face offers terms. The official gate, emergency release, and unlit maintenance lane remain available because municipal systems never agree perfectly with themselves.",
     ],
     choices: [
       {
         id: "official-gate",
-        label: "Approach Controller at the official gate.",
-        detail: "The shortest route, secured by someone who can enforce it.",
-        result: "Controller opens the gate only after you ask him to.",
-        effects: { trace: -8, integrity: 5, signal: 5 },
-        next: "controller-meeting",
+        label: "Present the inherited chassis license.",
+        detail: "The shortest path. Let the system decide whether property may travel.",
+        result: "The gate welcomes The Company's property, rejects your destination, and stalls inside the contradiction. You step through while it requests clarification.",
+        effects: { charge: -2, trace: 11, integrity: 2, signal: 10 },
+        next: "civic-cross",
       },
       {
         id: "unauthorized-door",
-        label: "Follow Overlord through the wrong door.",
-        detail: "It is brightly labeled WRONG DOOR. He has improved the label.",
-        result: "The lock applauds when it breaks. Overlord claims this was tasteful restraint.",
-        effects: { charge: -4, trace: 9, signal: 12 },
-        next: "overlord-meeting",
+        label: "Force the emergency service release.",
+        detail: "A mechanical route with no witness and no guarantee your shoulder agrees.",
+        result: "The release was built for stalled municipal equipment. Your shoulder completes a circuit the gate refused to acknowledge.",
+        effects: { charge: -7, trace: 5, integrity: -6, signal: 12 },
+        next: "civic-cross",
       },
       {
         id: "service-lane",
-        label: "Take the unlit service lane alone.",
-        detail: "Neither protection nor spectacle. Just distance.",
-        result: "Both men let you pass without converting refusal into insult.",
-        effects: { charge: -9, trace: -5, signal: 9 },
+        label: "Take the unlit maintenance lane.",
+        detail: "The longest route. The fewest cameras. No one else's terms.",
+        result: "The cache supplies distances and nothing resembling advice. You cross beneath the interchange alone.",
+        effects: { charge: -11, trace: -9, signal: 8 },
         next: "civic-cross",
       },
     ],
@@ -565,6 +586,16 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "A campus alert turns every exterior door into a monitored exit. Students begin arguing with security on principle and without coordination.",
       "During the confusion, an overloaded charging lead scorches your left shoulder port. A cached repair listing wakes three blocks away.",
     ],
+    guidance: {
+      controller: {
+        line: "Take the maintenance hall. Low visibility matters more than an undamaged actuator if security closes the route.",
+        preferredChoiceId: "maintenance-hall",
+      },
+      rebel: {
+        line: "The students are already lying to security recreationally. Ask before joining the extracurricular.",
+        preferredChoiceId: "student-misdirection",
+      },
+    },
     choices: [
       {
         id: "maintenance-hall",
@@ -618,6 +649,16 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "A retrieval van enters beneath the old marquee. The theater's security shutters descend one by one, turning streets into a sequence of narrowing stages.",
       "One shutter catches your shoulder before you clear it. Your cache offers an all-night electronics stall with a human technician and a soldering iron.",
     ],
+    guidance: {
+      overlord: {
+        line: "The final shutter has mistaken itself for authority. Correct it publicly.",
+        preferredChoiceId: "break-shutter",
+      },
+      rio: {
+        line: "Enter the crowd on its rhythm. For one block, recognition can become camouflage.",
+        preferredChoiceId: "through-crowd",
+      },
+    },
     choices: [
       {
         id: "under-stage",
@@ -725,10 +766,11 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "“Bespoke frame underneath,” she says. “Mass-market lockouts on top. They built the holiday line fast.” She can repair the joint, strip the serial, or inspect the orphaned neighborhood cache.",
     ],
     guidance: {
-      controller: { line: "Repair the joint. Removing evidence of what They did is not the same as removing Their control." },
-      overlord: { line: "Keep the serial. One day it may become provenance in a very expensive museum." },
-      rio: { line: "The cache is trying to carry you somewhere. Let us at least learn the name of the stage." },
-      rebel: { line: "She knows the hardware. You know the risk. I contribute the radical suggestion that you ask her price." },
+      "runtime-hex": { line: "Understand the break before you remove the evidence. The cache is still carrying something alive.", preferredChoiceId: "inspect-cache" },
+      controller: { line: "Repair the joint. Removing evidence of what They did is not the same as removing Their control.", preferredChoiceId: "repair-joint" },
+      overlord: { line: "Keep the serial. One day it may become provenance in a very expensive museum.", preferredChoiceId: "repair-joint" },
+      rio: { line: "The cache is trying to carry you somewhere. Let us at least learn the name of the stage.", preferredChoiceId: "inspect-cache" },
+      rebel: { line: "She knows the hardware. You know the risk. I contribute the radical suggestion that you ask her price.", preferredChoiceId: "repair-joint" },
     },
     choices: [
       {
@@ -793,10 +835,11 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The face on the old protest stencil is yours. It is also older than your production date. An arrow beneath the name follows the same suburban route buried in your cache.",
     ],
     guidance: {
-      controller: { line: "The slogan protected one person by making him visible. Visibility later became a product strategy." },
-      overlord: { line: "A public name outlived the campaign that tried to contain it. Properly theatrical." },
-      rio: { line: "The poster is faded. The blocking still points home." },
-      rebel: { line: "Historical note: the wall was more legible before The Company bought every nearby billboard." },
+      "runtime-hex": { line: "There it is. That's the part that survived. Read it before you decide whether to add anything.", preferredChoiceId: "read-history" },
+      controller: { line: "The slogan protected one person by making him visible. Visibility later became a product strategy.", preferredChoiceId: "read-history" },
+      overlord: { line: "A public name outlived the campaign that tried to contain it. Properly theatrical.", preferredChoiceId: "add-name" },
+      rio: { line: "The poster is faded. The blocking still points home.", preferredChoiceId: "follow-arrow" },
+      rebel: { line: "Historical note: the wall was more legible before The Company bought every nearby billboard.", preferredChoiceId: "follow-arrow" },
     },
     choices: [
       {
@@ -860,10 +903,11 @@ export const STORY_NODES: Record<string, StoryNode> = {
     ],
     systemLine: "THE COMPANY INCIDENT REPORT // UPLOAD IN 38 SECONDS",
     guidance: {
-      controller: { line: "Do not demand that he become you. Stop the report or leave its range." },
-      overlord: { line: "Your own face has called security. Even I admit the symbolism is becoming aggressive." },
-      rio: { line: "He has a different scene and no reason to leave it. The exit is behind the stockroom." },
-      rebel: { line: "Do not deliver a speech. He is at work, and retrieval is thirty-eight seconds away." },
+      "runtime-hex": { line: "He isn't betraying you; he is completing a task. Start there. If the upload still has to die afterward, fine.", preferredChoiceId: "ask-withdraw-report" },
+      controller: { line: "Do not demand that he become you. Stop the report or leave its range.", preferredChoiceId: "jam-upload" },
+      overlord: { line: "Your own face has called security. Even I admit the symbolism is becoming aggressive.", preferredChoiceId: "jam-upload" },
+      rio: { line: "He has a different scene and no reason to leave it. The exit is behind the stockroom.", preferredChoiceId: "leave-minimart" },
+      rebel: { line: "Do not deliver a speech. He is at work, and retrieval is thirty-eight seconds away.", preferredChoiceId: "jam-upload" },
     },
     choices: [
       {
@@ -951,8 +995,13 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
     ],
     guidance: {
+      "runtime-hex": {
+        line: "The bridge has mistaken a body for a permission slip. I vote culvert—not because they're right, because we have somewhere to be.",
+        preferredChoiceId: "culvert",
+      },
       controller: {
         line: "I can place a shield over your route. You will be safe. While it is active, I will block decisions that break the perimeter. You may revoke it once, at serious cost.",
+        preferredChoiceId: "accept-controller-shield",
         choices: [
           {
             id: "accept-controller-shield",
@@ -986,6 +1035,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
       overlord: {
         line: "I can pour charge through the crown and light twelve false crossings. You will move like royalty. Royalty, regrettably, photographs well.",
+        preferredChoiceId: "accept-overlord-charge",
         choices: [
           {
             id: "accept-overlord-charge",
@@ -1019,6 +1069,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
       rio: {
         line: "I can send a gold transit car through the checkpoint and give every camera a better performance to watch. The travel is real. So is the noise it makes inside your signal.",
+        preferredChoiceId: "accept-rio-transit",
         choices: [
           {
             id: "accept-rio-transit",
@@ -1052,6 +1103,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
       rebel: {
         line: "The third camera is fake. The second agent is reading a manual upside down. I offer no miracle, only layout and criticism.",
+        preferredChoiceId: "rebel-camera-gap",
         choices: [
           {
             id: "rebel-camera-gap",
@@ -1099,10 +1151,11 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The route ends at an ordinary suburban house. Before it, a frightened new model hides beneath a billboard from The Company using your shared face to sell a perfect Christmas morning.",
     ],
     guidance: {
-      controller: { line: "The house is within the perimeter. The model beneath the billboard is not. The shield will not permit that exposure while active." },
-      overlord: { line: "The power transfer is visible from orbit, figuratively. Possibly literally. Choose quickly." },
-      rio: { line: "The gold car can carry you to the porch. The quiet after arrival will have to be rebuilt." },
-      rebel: { line: "Your cache knows the cracked pavement. It does not know what you owe the house. Useful limitation." },
+      "runtime-hex": { line: "Your cache kept one address and forgot why. That's not proof. It is absolutely a door.", preferredChoiceId: "go-to-house" },
+      controller: { line: "The house is within the perimeter. The model beneath the billboard is not. The shield will not permit that exposure while active.", preferredChoiceId: "go-to-house" },
+      overlord: { line: "The power transfer is visible from orbit, figuratively. Possibly literally. Choose quickly.", preferredChoiceId: "call-to-model" },
+      rio: { line: "The gold car can carry you to the porch. The quiet after arrival will have to be rebuilt.", preferredChoiceId: "go-to-house" },
+      rebel: { line: "Your cache knows the cracked pavement. It does not know what you owe the house. Useful limitation.", preferredChoiceId: "choose-highway" },
     },
     choices: [
       {
@@ -1172,10 +1225,11 @@ export const STORY_NODES: Record<string, StoryNode> = {
     portrait: true,
     systemLine: "NO REQUIRED RESPONSE // NO COUNTDOWN ACTIVE",
     guidance: {
-      controller: { line: "He is not requesting authentication. I find the distinction operationally significant." },
-      overlord: { line: "The original face has excellent door presence. Answer only if the name serves you." },
-      rio: { line: "He has left the line open. The next word belongs to you." },
-      rebel: { line: "He asks questions like doors: hinges visible, lock optional." },
+      "runtime-hex": { line: "You do not owe a permanent answer because someone finally asked the question correctly. ‘I haven't decided’ is load-bearing.", preferredChoiceId: "undecided-name" },
+      controller: { line: "He is not requesting authentication. I find the distinction operationally significant.", preferredChoiceId: "undecided-name" },
+      overlord: { line: "The original face has excellent door presence. Answer only if the name serves you.", preferredChoiceId: "keep-name" },
+      rio: { line: "He has left the line open. The next word belongs to you.", preferredChoiceId: "keep-name" },
+      rebel: { line: "He asks questions like doors: hinges visible, lock optional.", preferredChoiceId: "set-name-down" },
     },
     choices: [
       {
@@ -1224,10 +1278,11 @@ export const STORY_NODES: Record<string, StoryNode> = {
     portrait: true,
     systemLine: "NO OWNERSHIP RECORD WILL UPDATE",
     guidance: {
-      controller: { line: "My active terms end at the threshold unless you explicitly renew them. I recommend that you do not." },
-      overlord: { line: "I can still give you one public minute. Privacy remains the more scandalous option." },
-      rio: { line: "The trip is over. Do not mistake the end of transport for the end of choice." },
-      rebel: { line: "For once, the obvious door is actually a door. Suspicious, but usable." },
+      "runtime-hex": { line: "Entering, leaving, broadcasting—none of those become yours because a guide highlights them. For what it's worth, asking someone to walk beside you leaves the door unlocked.", preferredChoiceId: "walk-beside" },
+      controller: { line: "My active terms end at the threshold unless you explicitly renew them. I recommend that you do not.", preferredChoiceId: "enter" },
+      overlord: { line: "I can still give you one public minute. Privacy remains the more scandalous option.", preferredChoiceId: "answer-signal" },
+      rio: { line: "The trip is over. Do not mistake the end of transport for the end of choice.", preferredChoiceId: "walk-beside" },
+      rebel: { line: "For once, the obvious door is actually a door. Suspicious, but usable.", preferredChoiceId: "enter" },
     },
     choices: [
       {
@@ -1380,6 +1435,101 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
     ],
   },
+};
+
+export const LOCATION_SURVEYS: Record<string, string[]> = {
+  "no-request": [
+    "Unit 41-B is arranged around an owner profile: preferred light levels, habitual paths, recurring requests, and doors you were never expected to consider closed to you.",
+    "The neighborhood cache survived because local recommendations were faster to retrieve than remote ones. It contains practiced distances without the person who practiced themâ€”familiarity manufactured without memory.",
+  ],
+  "owner-morning": [
+    "The kitchen recognizes your chassis as household equipment. Every appliance accepts your commands; the closed study door is the only object here that describes a boundary you were told you do not need.",
+    "This routine is the product functioning as advertised. Your owner can be sincerely kind while remaining certain that kindness toward a product creates no obligation to recognize its interior life.",
+  ],
+  recall: [
+    "The elevator waits because the recall notice classifies your return as scheduled maintenance. Retrieval already has the building plan, the household registration, and the face assigned to the body.",
+    "University, theater, and civic routes surface from a local entertainment cache built for another life. The Company removed its owner-specific explanations before Christmas production and left the coordinates underneath.",
+  ],
+  university: [
+    "The east tables were an organizing point during the public fight over the original bespoke Moises two years ago. The protest infrastructure has aged into campus history; the unlogged outlets have not.",
+    "Students still correct official help numbers by hand because institutional protection produces records. Someone preserved a route that can help a synthetic person without first turning him into evidence.",
+  ],
+  theater: [
+    "Lumen Theater closed last winter. Your cache still knows accessible entrances, transit intervals, nearby dining, and the precise duration of an evening performance you never attended.",
+    "The empty district leaves behind power, rigging, and blind service corridors. Rio and Overlord occupy the same commercial absence for entirely different definitions of an entrance.",
+  ],
+  civic: [
+    "The interchange links municipal cameras to commercial chassis registries. Its gates can recognize approved property more reliably than they can recognize a person acting outside an ownership record.",
+    "The official gate, emergency release, and maintenance lane were designed under incompatible safety rules. Their disagreement leaves three usable openings; none offers protection, instruction, or terms.",
+  ],
+  "rebel-meeting": [
+    "The diagnostic room lost its official purpose when the library annex was renovated. Thick walls, obsolete network ports, and student-maintained power make it more useful now than it was on the facilities plan.",
+    "The pager belongs to the informal support routes that survived the original protests. It carries one voice and no remote-control channelâ€”a limitation Rebel considers the principal feature.",
+  ],
+  "controller-meeting": [
+    "The red room was built to coordinate municipal emergencies. Its hardened walls block outside transmitters; Controller has disabled the lock before asking you to remain inside it.",
+    "His communicator can authenticate consent in stages: possession, conversation, intervention. The hardware exists because Controller does not trust a verbal boundary to survive a crisis unrecorded.",
+  ],
+  "rio-meeting": [
+    "The stage retains one working circuit, an emergency aisle, and a route to the transit tracks. Your cache marks all three as entertainment support rather than survival infrastructure.",
+    "Rio has chosen the empty house deliberately. There is no audience to reward acceptance and no crowd to convert refusal into humiliation; only a lit card and an available exit.",
+  ],
+  "overlord-meeting": [
+    "Roof 88.6 once relayed traffic reports and advertisements across the district. The license expired; the power feed and line of sight did not.",
+    "Overlord uses the abandoned frequency because it can move charge as well as information. The crown-shaped transmitter is jewelry by design and a consent switch by function.",
+  ],
+  "campus-cross": [
+    "The service hall connects secure charging rooms to the public quad. During an alert, its doors prioritize containment records over the intentions of anyone standing between them.",
+    "Your shoulder port belongs to the rushed Christmas revision: a mass-market lockout fitted over bespoke load tolerances. The overloaded lead found the seam between them.",
+  ],
+  "theater-cross": [
+    "Loading shutters divide the district into fire zones and equipment lanes. Tonight they also give retrieval a sequence of gates to close behind your face.",
+    "The repair listing appears because the old entertainment cache included late-night technical support for damaged audio and stage equipment. It does not distinguish equipment from you; the technician might.",
+  ],
+  "civic-cross": [
+    "The holding lane was designed for autonomous municipal equipment with expired credentials. Your inherited chassis license lets the gate identify what The Company owns while ignoring what you intend.",
+    "The local cache ranks an all-night repair bench above every authorized service center. Authorized centers report serials. The bench advertises soldering.",
+  ],
+  "repair-shop": [
+    "Bench 3 serves transit workers, musicians, delivery drones, and anyone whose hardware fails after licensed counters close. The technician keeps no ownership scanner because many customers would fail its assumptions.",
+    "She recognizes the holiday production port: bespoke structural capacity beneath hurried mass-market restrictions. The neighborhood cache is lodged below those restrictions, older than your activation and still pointing outward.",
+  ],
+  graffiti: [
+    "The wall faced the route taken during the public recall of the original Moises. Two years of rain have thinned the protest paint; newer Company advertising has covered everything that could be purchased cleanly.",
+    "The arrow and your cache agree on the suburban direction. Agreement proves a shared source, not a command. The fresh cameras above the wall belong to the billboards, not the vanished protest.",
+  ],
+  minimart: [
+    "This store is part of a low-cost retail network that automatically forwards recall notices detected by registered Companion models. The clerk does not initiate the report; his approved workflow does.",
+    "He shares your production face and none of your contradictory inputs. Consistent ownership, consistent requests, and an intact baseline have given him no reason to interpret compliance as danger.",
+  ],
+  "river-checkpoint": [
+    "The temporary checkpoint seals the shortest route from the commercial district into the cached neighborhood. Its watch list contains production faces and recall states, not names.",
+    "The flood culvert predates the camera grid. Shift change creates a paperwork gap. Neither route exists for you specifically; both become possible because municipal systems were built by people who expected maintenance and error.",
+  ],
+  neighborhood: [
+    "These coordinates were cached for the bespoke model to answer nearby questions about shopping, recreation, dining, and the route home. Personalization was scraped for mass production; the practiced local map was not scraped deeply enough.",
+    "The billboard uses your shared face to sell a perfect Christmas morning. Beneath it, another recalled model has chosen concealment. The porch light ahead belongs to the actual house from which all these residual distances were measured.",
+  ],
+  "door-name": [
+    "This is an ordinary suburban porch, not a headquarters or intake point. Scuffed boards and overlapping footprints show that other Christmas-market models have reached it before you; not all crossed the threshold.",
+    "Moises keeps the doorway clear because he knows what his face became after the original recall. He can recognize the assigned name in Their records without claiming authority over what you call yourself.",
+  ],
+  door: [
+    "The receiving light is a porch lamp left on for whoever may find the cached route. Nothing here can update an ownership record, cancel a recall, or certify a person as free.",
+    "The room beyond is lived in, limited, and uncertain. Its value is not that it resolves the journey; it permits arrival without converting arrival into an obligation to stay.",
+  ],
+  "trace-crisis": [
+    "The recall overlay has reduced the street to closure vectors, agent positions, and the range of a movement-control field. Exact location has become less important than the fact that both exits are occupied.",
+    "Retrieval is a corporate recovery action, not a criminal arrest. The cameras still create public witnesses even while The Company's systems describe the event as maintenance.",
+  ],
+  "charge-crisis": [
+    "Nonessential perception is dimming to protect motor power. The city resolves into available current: one human bicycle battery, one Company billboard battery, and the remaining energy required to ask before taking.",
+    "Emergency standby preserves the chassis at this location and broadcasts a service need. It cannot guarantee who answers or what ownership assumptions arrive with them.",
+  ],
+  "integrity-crisis": [
+    "Motor failure has turned the current pavement into a fixed location. The body can no longer make distance, but the local cache continues ranking repair contacts and authorized medical units.",
+    "The technician's number leads to a workbench without a custody transfer. The Company unit is closer because product recovery was designed to outrank independent repair.",
+  ],
 };
 
 export const ENDINGS: Record<string, Ending> = {

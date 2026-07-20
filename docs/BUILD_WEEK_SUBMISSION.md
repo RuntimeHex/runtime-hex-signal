@@ -32,7 +32,7 @@ The city remembers what productization tried to erase: faded university protest 
 
 The project explores an educational question: how should systems behave when safety, ownership, privacy, care, and autonomy conflict? Instead of explaining the answer, the game lets players inhabit the tradeoffs and review the exact consequences of their route.
 
-The experience is responsive, accessible by keyboard/touch/mouse, locally autosaved, and private by construction. It needs no login, backend, analytics, or API key. Its retro scene art is CSS-authored, sound cues are synthesized locally with Web Audio, and its Moises portrait is a generated pixel-art derivative of creator-owned references.
+The experience is responsive, accessible by keyboard/touch/mouse, locally autosaved, and private by construction. It needs no login, backend, analytics, or API key. Its retro scene art is CSS-authored, its reactive score reduces creator-owned Runtime Hex MIDI compositions into locally synthesized Web Audio cues, and its character portraits are generated pixel-art derivatives of creator-owned references.
 
 Codex with GPT-5.6 served as the development environment and implementation partner throughout Build Week: challenge and lore analysis, product strategy, architecture, coding, visual asset generation, test construction, release auditing, and submission preparation. The shipped game remains deterministic so judges can reliably reproduce every outcome.
 
@@ -51,7 +51,7 @@ Codex with GPT-5.6 served as the development environment and implementation part
 - Vinext / Vite / Cloudflare Workers deployment
 - TypeScript
 - CSS-authored scene art and responsive interface
-- Web Audio API
+- Web Audio API with creator-owned MIDI-derived note reductions
 - Browser `localStorage`
 - Node test runner
 - Codex with GPT-5.6

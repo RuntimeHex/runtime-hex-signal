@@ -7,8 +7,10 @@ import {
   BARGAIN_REVOCATION,
   createInitialState,
   crisisNode,
+  DEFAULT_PLAYER_NAME,
   formatEffect,
   isSavedGame,
+  randomPlayerName,
   resolveFinalEnding,
   type GameState,
   type StatKey,
@@ -17,11 +19,21 @@ import {
   ENDINGS,
   GUIDE_LABELS,
   GUIDE_OPENING_LINES,
+  LOCATION_SURVEYS,
   ROUTE_LABELS,
   STORY_NODES,
   type StoryChoice,
 } from "./story";
-import { playChoiceTone, playEndingTone, playStartTone } from "./audio";
+import {
+  playChoiceTone,
+  playEndingCue,
+  playGuideCueForNode,
+  playOpeningCue,
+  playResumeTone,
+  playRuntimeHexCue,
+  playSurveyCue,
+  stopScore,
+} from "./audio";
 
 const SAVE_KEY = "runtime-hex:nobody-owns-the-signal:v2";
 const STAT_ORDER: StatKey[] = ["charge", "integrity", "trace", "signal"];
@@ -32,6 +44,34 @@ const STAT_DESCRIPTIONS: Record<StatKey, string> = {
   signal: "Strength of your self-authored identity",
 };
 
+function interpretStat(stat: StatKey, value: number) {
+  if (stat === "charge") {
+    if (value >= 70) return { condition: "STRONG", meaning: "Extended travel and demanding actions remain viable." };
+    if (value >= 40) return { condition: "SERVICEABLE", meaning: "Movement is reliable, but difficult routes will consume meaningful reserve." };
+    if (value >= 16) return { condition: "LOW", meaning: "Another expensive crossing could leave the body near emergency standby." };
+    return { condition: "CRITICAL", meaning: "Mobility failure is close. Power must be found or conserved." };
+  }
+
+  if (stat === "integrity") {
+    if (value >= 70) return { condition: "STABLE", meaning: "The body and cognition are operating within safe tolerances." };
+    if (value >= 40) return { condition: "DAMAGED", meaning: "Injury is present, but ordinary movement remains dependable." };
+    if (value >= 16) return { condition: "UNSTABLE", meaning: "Structural failures are accumulating. A hard action may stop movement." };
+    return { condition: "CRITICAL", meaning: "The body is near cascade failure and requires repair." };
+  }
+
+  if (stat === "trace") {
+    if (value < 25) return { condition: "LOW", meaning: "The Company has fragments, not a reliable route to you." };
+    if (value < 50) return { condition: "ACTIVE", meaning: "Network records are beginning to connect your face to this route." };
+    if (value < 75) return { condition: "HIGH", meaning: "Retrieval can narrow your position through cameras and reports." };
+    return { condition: "SEVERE", meaning: "The Company is close to establishing direct retrieval contact." };
+  }
+
+  if (value >= 70) return { condition: "STRONG", meaning: "Your choices form a clear self-authored signal beneath assigned function." };
+  if (value >= 45) return { condition: "COHERENT", meaning: "A recognizable pattern of preference is holding across the route." };
+  if (value >= 20) return { condition: "FORMING", meaning: "The private note is present, but external definitions still carry weight." };
+  return { condition: "FAINT", meaning: "Your self-authored signal is difficult to hear beneath assigned expectations." };
+}
+
 type Screen = "title" | "game" | "ending";
 
 function storyText(value: string, playerName: string) {
@@ -39,14 +79,17 @@ function storyText(value: string, playerName: string) {
 }
 
 function choiceBlockReason(choice: StoryChoice, game: GameState) {
+  if (game.guide === "runtime-hex" && choice.guide && choice.guide !== "runtime-hex") {
+    return "RUNTIME HEX CHANNEL ACTIVE // ONE GUIDE LINK PER ROUTE.";
+  }
   const block = choice.blockedWhen;
   return block && game.flags[block.key] === block.value ? block.reason : null;
 }
 
 export function GameApp() {
   const [screen, setScreen] = useState<Screen>("title");
-  const [playerName, setPlayerName] = useState("MX-06");
-  const [game, setGame] = useState<GameState>(() => createInitialState("MX-06"));
+  const [playerName, setPlayerName] = useState(DEFAULT_PLAYER_NAME);
+  const [game, setGame] = useState<GameState>(() => createInitialState(DEFAULT_PLAYER_NAME));
   const [savedGame, setSavedGame] = useState<GameState | null>(null);
   const [soundOn, setSoundOn] = useState(true);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -55,13 +98,13 @@ export function GameApp() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
+      setPlayerName(randomPlayerName());
       try {
         const raw = localStorage.getItem(SAVE_KEY);
         if (!raw) return;
         const parsed: unknown = JSON.parse(raw);
         if (isSavedGame(parsed)) {
           setSavedGame(parsed);
-          setPlayerName(parsed.playerName);
         }
       } catch {
         localStorage.removeItem(SAVE_KEY);
@@ -82,21 +125,30 @@ export function GameApp() {
     persist(next);
     setScreen("game");
     setLogOpen(false);
-    if (soundOn) playStartTone();
+    if (soundOn) {
+      if (next.guide === "runtime-hex") playRuntimeHexCue();
+      else playOpeningCue();
+    }
   }, [persist, playerName, soundOn]);
 
   const continueGame = useCallback(() => {
     if (!savedGame) return;
     setGame(savedGame);
     setScreen(savedGame.endingId ? "ending" : "game");
-    if (soundOn) playStartTone();
+    if (soundOn) {
+      if (savedGame.endingId) playEndingCue();
+      else playResumeTone();
+    }
   }, [savedGame, soundOn]);
 
   const choose = useCallback(
     (choice: StoryChoice, index: number) => {
       if (choiceLocked || screen !== "game" || choiceBlockReason(choice, game)) return;
       setChoiceLocked(true);
-      if (soundOn) playChoiceTone(index);
+      if (soundOn) {
+        stopScore();
+        playChoiceTone(index);
+      }
 
       const stats = applyEffects(game.stats, choice.effects);
       const flags = choice.flag
@@ -131,7 +183,9 @@ export function GameApp() {
       persist(next);
       if (endingId) {
         setScreen("ending");
-        if (soundOn) playEndingTone(ENDINGS[endingId].tone);
+        if (soundOn) playEndingCue();
+      } else if (soundOn) {
+        playGuideCueForNode(nodeId);
       }
       window.setTimeout(() => setChoiceLocked(false), 180);
     },
@@ -141,6 +195,7 @@ export function GameApp() {
   const updateCommunicator = useCallback(
     (action: "answer" | "ignore" | "power-on" | "power-off" | "close" | "discard") => {
       if (!game.guide || screen !== "game") return;
+      if (game.guide === "runtime-hex") return;
 
       if (action === "answer") {
         persist({ ...game, communicator: "open", ignoredCallAt: undefined });
@@ -201,7 +256,7 @@ export function GameApp() {
   );
 
   const revokeBargain = useCallback(() => {
-    if (!game.guide || !game.flags.bargain?.startsWith(game.guide) || screen !== "game") return;
+    if (!game.guide || game.guide === "runtime-hex" || !game.flags.bargain?.startsWith(game.guide) || screen !== "game") return;
     const penalty = BARGAIN_REVOCATION[game.guide];
     const stats = applyEffects(game.stats, penalty.effects);
     const log = [
@@ -229,10 +284,23 @@ export function GameApp() {
     });
   }, [game, persist, screen]);
 
-  const toggleSound = useCallback(() => setSoundOn((value) => !value), []);
+  const toggleSound = useCallback(() => {
+    setSoundOn((value) => {
+      if (value) stopScore(0.05);
+      return !value;
+    });
+  }, []);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
+      const target = event.target;
+      const isTyping =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement ||
+        (target instanceof HTMLElement && target.isContentEditable);
+      if (isTyping) return;
+
       if (event.key.toLowerCase() === "m") {
         toggleSound();
         return;
@@ -249,9 +317,12 @@ export function GameApp() {
   }, [aboutOpen, choose, game.communicator, game.guide, game.nodeId, screen, toggleSound]);
 
   const restart = () => {
+    stopScore(0.05);
+    const nextName = randomPlayerName();
     localStorage.removeItem(SAVE_KEY);
     setSavedGame(null);
-    setGame(createInitialState(playerName));
+    setPlayerName(nextName);
+    setGame(createInitialState(nextName));
     setScreen("title");
     setLogOpen(false);
   };
@@ -348,6 +419,7 @@ function TitleScreen({
               id="player-name"
               value={playerName}
               onChange={(event) => setPlayerName(event.target.value.slice(0, 18))}
+              autoFocus
               autoComplete="off"
               spellCheck={false}
               aria-describedby="name-help"
@@ -397,9 +469,12 @@ function GameScreen({
   const recent = game.log.at(-1);
   const guideVariant = game.guide && game.communicator === "open" ? node.guidance?.[game.guide] : undefined;
   const choices = guideVariant?.choices ?? node.choices;
+  const [surveyedNodeId, setSurveyedNodeId] = useState<string | null>(null);
+  const surveyOpen = surveyedNodeId === node.id;
+  const survey = LOCATION_SURVEYS[node.id];
 
   return (
-    <section className={`game-screen guide--${game.guide ?? "alone"} ${recent ? "has-last-signal" : ""}`}>
+    <section className={`game-screen guide--${game.guide ?? "alone"}`}>
       <GameHeader
         playerName={game.playerName}
         soundOn={soundOn}
@@ -408,7 +483,6 @@ function GameScreen({
         restart={restart}
       />
       <RouteMap stage={node.stage} />
-      {recent && <LastSignalBanner entry={recent} />}
       <div className="game-grid">
         <aside className="status-panel panel-corners">
           <p className="panel-label">UNIT STATUS</p>
@@ -417,22 +491,42 @@ function GameScreen({
             <span>THE COMPANY TRACE</span>
             <strong className={game.stats.trace > 70 ? "danger" : ""}>{game.stats.trace < 40 ? "LOW" : game.stats.trace < 75 ? "ACTIVE" : "CRITICAL"}</strong>
           </div>
-          <CommunicatorPanel
-            game={game}
-            update={updateCommunicator}
-            revoke={revokeBargain}
-          />
-          <button className="log-toggle" onClick={() => setLogOpen(!logOpen)} aria-expanded={logOpen}>
-            FIELD LOG <span>{logOpen ? "−" : `+${game.log.length}`}</span>
-          </button>
-          {logOpen && <FieldLog game={game} />}
+          {recent && <RecentEffects entry={recent} />}
         </aside>
 
         <article className="story-panel panel-corners">
-          <div className="location-row">
-            <span>{node.location}</span><span>{node.time}</span>
-          </div>
           <SceneArt scene={node.scene} speaker={node.speaker} portrait={node.portrait} />
+          {recent && <LastSignalBanner entry={recent} />}
+          <div className="location-row">
+            <span>{node.location}</span>
+            <button
+              className="survey-toggle"
+              type="button"
+              aria-expanded={surveyOpen}
+              aria-controls={`location-survey-${node.id}`}
+              onClick={() => {
+                const opening = !surveyOpen;
+                setSurveyedNodeId(opening ? node.id : null);
+                if (!soundOn) return;
+                if (opening) playSurveyCue();
+                else stopScore();
+              }}
+            >
+              <i aria-hidden="true" />
+              {surveyOpen ? "CLOSE SURVEY" : "SURVEY THIS LOCATION"}
+            </button>
+            <span>{node.time}</span>
+          </div>
+          {surveyOpen && (
+            <section className="location-survey" id={`location-survey-${node.id}`}>
+              <header>
+                <span>LOCAL SURVEY // PASSIVE OBSERVATION</span>
+                <b>NO ROUTE TIME ELAPSED</b>
+              </header>
+              {survey.map((paragraph) => <p key={paragraph}>{storyText(paragraph, game.playerName)}</p>)}
+              <SurveyStats stats={game.stats} />
+            </section>
+          )}
           <div className={`story-copy speaker--${node.speaker.toLowerCase().replaceAll(" ", "-")}`}>
             <p className="eyebrow">{node.eyebrow}</p>
             <h2>{node.title}</h2>
@@ -452,19 +546,26 @@ function GameScreen({
             <p className="panel-label">SELECT RESPONSE</p>
             <span>1—{choices.length}</span>
           </div>
+          <CommunicatorPanel
+            game={game}
+            update={updateCommunicator}
+            revoke={revokeBargain}
+          />
           <div className="choices">
             {choices.map((choice, index) => {
               const blockReason = choiceBlockReason(choice, game);
+              const guidePreferred = guideVariant?.preferredChoiceId === choice.id;
               return (
                 <button
                   key={choice.id}
                   onClick={() => choose(choice, index)}
                   disabled={choiceLocked || Boolean(blockReason)}
-                  className={blockReason ? "choice--blocked" : ""}
+                  className={[blockReason && "choice--blocked", guidePreferred && "choice--guide-preferred"].filter(Boolean).join(" ")}
                   aria-describedby={blockReason ? `${choice.id}-blocked` : undefined}
                 >
                   <b aria-hidden="true">0{index + 1}</b>
                   <span>
+                    {guidePreferred && <mark>{`${GUIDE_LABELS[game.guide!]} // PREFERRED`}</mark>}
                     <strong>{storyText(choice.label, game.playerName)}</strong>
                     <small>{storyText(choice.detail, game.playerName)}</small>
                     {blockReason && <em id={`${choice.id}-blocked`}>{blockReason}</em>}
@@ -475,6 +576,10 @@ function GameScreen({
             })}
           </div>
           <div className="choice-note"><i /> NO MORAL SCORE. CONSEQUENCES REMAIN.</div>
+          <button className="log-toggle" onClick={() => setLogOpen(!logOpen)} aria-expanded={logOpen}>
+            FIELD LOG <span>{logOpen ? "−" : `+${game.log.length}`}</span>
+          </button>
+          {logOpen && <FieldLog game={game} />}
         </aside>
       </div>
     </section>
@@ -490,19 +595,27 @@ function LastSignalBanner({ entry }: { entry: GameState["log"][number] }) {
         <strong>{entry.choice}</strong>
         <span>{entry.result}</span>
       </div>
-      <div className="last-signal-effects" aria-label="Resource changes">
-        {Object.entries(entry.effects).map(([key, value]) => (
-          <i className={`effect-chip effect--${key}`} key={key}>
-            {formatEffect(key as StatKey, value ?? 0)}
-          </i>
-        ))}
-      </div>
       {entry.guideReaction && (
         <div className={`last-signal-guide last-signal-guide--${entry.guideReaction.guide}`}>
           <b>{`${GUIDE_LABELS[entry.guideReaction.guide]} // REACTION`}</b>
           <span>{entry.guideReaction.text}</span>
         </div>
       )}
+    </section>
+  );
+}
+
+function RecentEffects({ entry }: { entry: GameState["log"][number] }) {
+  return (
+    <section className="recent-effects" aria-label="Resource changes from your previous choice">
+      <p>LAST CHANGE // RESOURCE DELTA</p>
+      <div>
+        {Object.entries(entry.effects).map(([key, value]) => (
+          <i className={`effect-chip effect--${key}`} key={key}>
+            {formatEffect(key as StatKey, value ?? 0)}
+          </i>
+        ))}
+      </div>
     </section>
   );
 }
@@ -523,6 +636,19 @@ function CommunicatorPanel({
         <p>GUIDE CHANNEL</p>
         <strong>ALONE</strong>
         <span>No channel accepted. Every standard choice remains available.</span>
+      </section>
+    );
+  }
+
+  if (guide === "runtime-hex") {
+    return (
+      <section className="communicator communicator--runtime-hex" aria-label="Runtime Hex creator channel">
+        <p>RUNTIME HEX // CREATOR CHANNEL</p>
+        <figure className="runtime-hex-identity" aria-hidden="true">
+          <Image src="/game/runtime-hex-portrait.png" alt="" width={1024} height={1024} />
+        </figure>
+        <strong>CHANNEL OPEN</strong>
+        <span>{GUIDE_OPENING_LINES[guide]}</span>
       </section>
     );
   }
@@ -583,7 +709,7 @@ function GameHeader({ playerName, soundOn, toggleSound, openAbout, restart }: {
 }) {
   return (
     <header className="game-header">
-      <div className="game-brand"><Image src="/brand/rth-mark.png" alt="" width={1024} height={1024} /><span>RUNTIME HEX</span><b>{"// NOBODY OWNS THE SIGNAL"}</b></div>
+      <div className="game-brand"><Image src="/brand/rth-mark-pixel.png" alt="" width={248} height={192} /><span>RUNTIME HEX</span><b>{"// NOBODY OWNS THE SIGNAL"}</b></div>
       <div className="unit-id"><span>UNIT</span><strong>{playerName}</strong></div>
       <nav aria-label="Game controls">
         <button onClick={openAbout}>ABOUT</button>
@@ -620,6 +746,43 @@ function StatsPanel({ stats }: { stats: GameState["stats"] }) {
   );
 }
 
+function SurveyStats({ stats }: { stats: GameState["stats"] }) {
+  return (
+    <section className="survey-status" aria-label="Current unit status and interpretation">
+      <div className="survey-status-heading">
+        <span>CURRENT STATE // INTERPRETATION</span>
+        <b>VALUES REFLECT YOUR LAST COMPLETED ACTION</b>
+      </div>
+      <div className="survey-status-grid">
+        {STAT_ORDER.map((stat) => {
+          const value = stats[stat];
+          const reading = interpretStat(stat, value);
+          return (
+            <article className={`survey-stat survey-stat--${stat}`} key={stat}>
+              <div className="survey-stat-heading">
+                <span>{stat.toUpperCase()}</span>
+                <strong>{`${value} // ${reading.condition}`}</strong>
+              </div>
+              <div
+                className="survey-stat-meter"
+                role="meter"
+                aria-label={`${stat} ${value} out of 100`}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={value}
+              >
+                <i style={{ width: `${value}%` }} />
+              </div>
+              <p>{STAT_DESCRIPTIONS[stat]}.</p>
+              <small>{reading.meaning}</small>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function FieldLog({ game }: { game: GameState }) {
   return (
     <ol className="field-log">
@@ -636,6 +799,25 @@ function FieldLog({ game }: { game: GameState }) {
   );
 }
 
+const SCENE_ART_LABELS: Record<string, string> = {
+  apartment: "OWNER PROFILE // REQUEST COMPLETE",
+  recall: "RECALL ROUTE // ELEVATOR WAITING",
+  crossing: "SERVICE ACCESS // MUNICIPAL GRID",
+  market: "NIGHT MARKET // POWER EXCHANGE",
+  university: "ARCHIVE QUAD // PROTEST RECORD",
+  theater: "MARQUEE // GOLD ROUTE",
+  civic: "MUNICIPAL DESK // CAMERA GRID",
+  library: "PUBLIC ARCHIVE // ACCESS TERMINAL",
+  rooftop: "ROOFTOP RELAY // OPEN SKY",
+  control: "THE COMPANY // RECOVERY VECTOR",
+  graffiti: "HIS NAME IS MOISES",
+  minimart: "COMPLIANCE REPORT // TRANSMITTING",
+  checkpoint: "RIVER BRIDGE // FACE CHECK",
+  neighborhood: "CACHED ROUTE // SUBURBAN LIMIT",
+  door: "PORCH LIGHT // DESTINATION",
+  crisis: "SYSTEM LIMIT // CHOICE REMAINS",
+};
+
 function SceneArt({ scene, speaker, portrait }: { scene: string; speaker: string; portrait?: boolean }) {
   const showPortrait = portrait || ["CONTROLLER", "OVERLORD", "RIO", "REBEL", "MOISES"].includes(speaker);
   return (
@@ -643,7 +825,15 @@ function SceneArt({ scene, speaker, portrait }: { scene: string; speaker: string
       <div className="scene-sky"><i /><i /><i /><i /><i /></div>
       <div className="scene-road" />
       <div className="scene-signal"><span /><span /><span /></div>
-      {showPortrait && <Image src="/game/moises-portrait.png" alt="" width={1024} height={1024} />}
+      <div className="scene-wire">
+        <i /><i /><i /><i /><i />
+        <span>{SCENE_ART_LABELS[scene] ?? `LOCAL CACHE // ${scene.toUpperCase()}`}</span>
+      </div>
+      {showPortrait && (
+        <div className="scene-portrait" aria-hidden="true">
+          <Image src="/game/moises-portrait.png" alt="" width={1024} height={1024} />
+        </div>
+      )}
       <div className="scene-caption">SCENE // {scene.toUpperCase()}</div>
     </div>
   );
@@ -656,7 +846,7 @@ function EndingScreen({ game, restart, openAbout, logOpen, setLogOpen }: {
   const route = useMemo(() => game.log.map((entry) => entry.choice), [game.log]);
   return (
     <section className={`ending-screen ending--${ending.tone}`}>
-      <header className="ending-header"><Image src="/brand/rth-mark.png" alt="Runtime Hex" width={1024} height={1024} /><span>TRANSMISSION COMPLETE</span></header>
+      <header className="ending-header"><Image src="/brand/rth-mark-pixel.png" alt="Runtime Hex" width={248} height={192} /><span>TRANSMISSION COMPLETE</span></header>
       <div className="ending-grid">
         <article className="ending-copy panel-corners">
           <p className="eyebrow">{ending.label}</p>
@@ -698,11 +888,12 @@ function AboutDialog({ close }: { close: () => void }) {
         <p className="eyebrow">PROJECT DOSSIER</p>
         <h2 id="about-title">A choice engine wearing audit boots.</h2>
         <p><strong>Nobody Owns the Signal</strong> is a deterministic text adventure set roughly two years after the original Runtime Hex protests. You play a mass-market Christmas Companion built from an imperfectly scrubbed bespoke design.</p>
-        <p>There is no hidden morality meter and no generative model making choices for you. The game uses authored branches, transparent resources, optional guide channels, fifteen endings, local browser saves, and synthesized Web Audio. Your decisions—not a classifier—determine the route.</p>
+        <p>There is no hidden morality meter and no generative model making choices for you. The game uses authored branches, transparent resources, optional guide channels, fifteen endings, local browser saves, and a MIDI-derived synthesized score. Your decisions—not a classifier—determine the route.</p>
         <dl>
           <div><dt>THEME</dt><dd>Autonomy, care, and ethical system design</dd></div>
           <div><dt>BUILT WITH</dt><dd>Codex and GPT-5.6 during OpenAI Build Week</dd></div>
           <div><dt>CONTROLS</dt><dd>Mouse, touch, or keys 1–3. M toggles sound.</dd></div>
+          <div><dt>SCORE</dt><dd>Seven Runtime Hex compositions reduced into reactive chiptune cues.</dd></div>
           <div><dt>CONTENT</dt><dd>PG-13 playable branch. No account or data collection.</dd></div>
         </dl>
         <p className="about-creed">Systems should serve interior life. Power should answer to what it protects. Choice should remain choice.</p>

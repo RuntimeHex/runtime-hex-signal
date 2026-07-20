@@ -6,9 +6,10 @@
 |---|---|---|
 | `public/brand/rth-mark.png` | Supplied by Robb G. / Runtime Hex | Canon brand mark; included by the rights holder |
 | `public/game/moises-portrait.png` | Generated with OpenAI's built-in image generation through Codex | Derived from private creator-supplied Moises identity references; prompt below |
+| `public/game/runtime-hex-portrait.png` | Generated with OpenAI's built-in image generation through Codex | Pixel-art style transfer from the creator-supplied Runtime Hex alter-ego portrait; prompt below |
 | `public/og.png` | Generated with OpenAI's built-in image generation through Codex | Social preview card; prompt recorded below after final generation |
 | Scene imagery | Authored CSS | Original buildings, roadway, signal rings, scanlines, and lighting |
-| Sound cues | Authored Web Audio oscillators | No sampled or third-party music files |
+| Runtime Hex score | Creator-owned MIDI compositions reduced into authored note data and synthesized with Web Audio | No recordings, samples, streams, or third-party music files are shipped; see `MUSIC_CUE_LEDGER.md` |
 
 ## Private references not shipped
 
@@ -21,6 +22,12 @@ Tool: OpenAI built-in image generation through Codex.
 Prompt summary: Create an original late-1980s/early-1990s 16-bit pixel-art bust portrait of Moises using the supplied body, face-turnaround, and warm portrait references for identity and proportion. Preserve his Mexican identity, tan-olive skin, deep brown eyes, dark wavy curls with faded sides, dense full beard, broad jaw, powerful shoulders, relaxed brows, and restrained half-smile. Use black, charcoal, cyan, blue, and sparse neon green; place him against a black and charcoal retro control-room backdrop with sparse cyan circuitry. No logos or text.
 
 The image was generated first against a chroma background, then edited once through the same tool to replace only the background with the final control-room environment.
+
+## Runtime Hex creator-channel portrait
+
+Tool: OpenAI built-in image generation through Codex.
+
+Prompt summary: Convert the supplied Runtime Hex chest-up identity reference into a polished square retro pixel-art portrait matching the game's existing Moises portrait language. Preserve the recognizable face, spiked brown hair, trimmed mustache and goatee, luminous blue-green wraparound visor, muscular build, black high-collared sleeveless tech vest, and bright cyan electrical seam across the chest and arms. Use a near-black terminal backdrop with restrained cyan and green circuitry, deliberate late-16-bit/early-32-bit pixel clusters, and no text, logos, watermark, or magenta.
 
 ## Social card generation
 

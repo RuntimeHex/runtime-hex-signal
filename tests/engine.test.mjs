@@ -18,6 +18,26 @@ test("creates a sanitized, independent initial game state", () => {
   assert.equal(second.stats.charge, 72);
 });
 
+test("assigns curated human names without falling back to a model number", () => {
+  assert.equal(engine.randomPlayerName(() => 0), "Adrian");
+  assert.equal(engine.randomPlayerName(() => 0.999999), "Victor");
+  assert.equal(engine.createInitialState("   ").playerName, "Adrian");
+  assert.equal(engine.PLAYER_NAME_POOL.includes("MX-06"), false);
+});
+
+test("secret Runtime Hex names open the creator guide channel from first signal", () => {
+  for (const name of ["RTH", "Runtime Hex", "RT Hex", " runtime   hex "]) {
+    assert.equal(engine.isRuntimeHexGuideName(name), true, `${name} did not activate the guide`);
+    const state = engine.createInitialState(name);
+    assert.equal(state.guide, "runtime-hex");
+    assert.equal(state.communicator, "open");
+    assert.equal(state.flags.runtimeHexGuide, "active");
+  }
+
+  assert.equal(engine.isRuntimeHexGuideName("Runtime"), false);
+  assert.equal(engine.createInitialState("Mateo").guide, null);
+});
+
 test("applies and clamps all resources", () => {
   const result = engine.applyEffects(
     { charge: 5, integrity: 99, trace: 98, signal: 2 },

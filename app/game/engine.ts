@@ -6,7 +6,7 @@ export type Stats = {
 };
 
 export type StatKey = keyof Stats;
-export type Guide = "controller" | "overlord" | "rio" | "rebel";
+export type Guide = "controller" | "overlord" | "rio" | "rebel" | "runtime-hex";
 export type CommunicatorState = "none" | "carried" | "available" | "open" | "discarded";
 export type GameFlags = Record<string, string>;
 
@@ -38,6 +38,36 @@ export const INITIAL_STATS: Stats = {
   signal: 5,
 };
 
+export const PLAYER_NAME_POOL = [
+  "Adrian",
+  "Alex",
+  "Andre",
+  "Ben",
+  "Caleb",
+  "Daniel",
+  "Eli",
+  "Gabriel",
+  "Isaac",
+  "Julian",
+  "Leo",
+  "Luca",
+  "Mateo",
+  "Nico",
+  "Rafael",
+  "Roman",
+  "Sam",
+  "Theo",
+  "Tomas",
+  "Victor",
+] as const;
+
+export const DEFAULT_PLAYER_NAME = PLAYER_NAME_POOL[0];
+
+export function randomPlayerName(random: () => number = Math.random) {
+  const index = Math.floor(random() * PLAYER_NAME_POOL.length);
+  return PLAYER_NAME_POOL[index] ?? DEFAULT_PLAYER_NAME;
+}
+
 const STAT_LIMITS: Record<StatKey, [number, number]> = {
   charge: [0, 100],
   integrity: [0, 100],
@@ -51,19 +81,26 @@ function clamp(value: number, [minimum, maximum]: [number, number]) {
 
 export function sanitizePlayerName(value: string) {
   const cleaned = value.replace(/[^a-zA-Z0-9 '\-]/g, "").trim().slice(0, 18);
-  return cleaned || "MX-06";
+  return cleaned || DEFAULT_PLAYER_NAME;
+}
+
+export function isRuntimeHexGuideName(value: string) {
+  const normalized = sanitizePlayerName(value).toLowerCase().replace(/[^a-z0-9]/g, "");
+  return ["rth", "runtimehex", "rthex"].includes(normalized);
 }
 
 export function createInitialState(playerName: string): GameState {
+  const name = sanitizePlayerName(playerName);
+  const runtimeHexGuide = isRuntimeHexGuideName(name);
   return {
     version: 2,
-    playerName: sanitizePlayerName(playerName),
+    playerName: name,
     nodeId: "no-request",
     stats: { ...INITIAL_STATS },
-    flags: {},
+    flags: runtimeHexGuide ? { runtimeHexGuide: "active" } : {},
     log: [],
-    guide: null,
-    communicator: "none",
+    guide: runtimeHexGuide ? "runtime-hex" : null,
+    communicator: runtimeHexGuide ? "open" : "none",
   };
 }
 
@@ -119,6 +156,10 @@ export const BARGAIN_REVOCATION: Record<Guide, { effects: Partial<Stats>; result
     effects: { signal: -3 },
     result: "The channel closes. Rebel does not pursue you with an opinion.",
   },
+  "runtime-hex": {
+    effects: {},
+    result: "The creator channel carries no intervention and no bargain to revoke.",
+  },
 };
 
 export function formatEffect(key: StatKey, value: number) {
@@ -145,7 +186,7 @@ export function isSavedGame(value: unknown): value is GameState {
     typeof candidate.stats.signal === "number" &&
     !!candidate.flags &&
     Array.isArray(candidate.log) &&
-    (candidate.guide === null || ["controller", "overlord", "rio", "rebel"].includes(candidate.guide ?? "")) &&
+    (candidate.guide === null || ["controller", "overlord", "rio", "rebel", "runtime-hex"].includes(candidate.guide ?? "")) &&
     ["none", "carried", "available", "open", "discarded"].includes(candidate.communicator ?? "")
   );
 }
