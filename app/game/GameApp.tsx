@@ -396,7 +396,7 @@ function TitleScreen({
         <span /><span /><span /><span /><span /><span /><span />
       </div>
       <header className="title-topbar">
-        <Image src="/brand/rth-mark.png" alt="Runtime Hex" className="brand-mark" width={1024} height={1024} priority />
+        <Image src="/brand/rth-mark-pixel.png" alt="Runtime Hex" className="brand-mark" width={248} height={192} priority unoptimized />
         <div className="topbar-actions">
           <button className="text-button" onClick={openAbout}>ABOUT</button>
           <button className="text-button" onClick={toggleSound} aria-pressed={soundOn}>
@@ -406,8 +406,11 @@ function TitleScreen({
       </header>
 
       <div className="title-lockup">
+        <div className="title-keyart" aria-hidden="true">
+          <Image src="/og.png" alt="" width={1731} height={909} priority unoptimized />
+        </div>
+        <h1 className="visually-hidden"><span>NOBODY OWNS</span><strong>THE SIGNAL</strong></h1>
         <p className="kicker"><span>RUNTIME HEX</span>{" // A PLAYABLE BRANCH"}</p>
-        <h1><span>NOBODY OWNS</span><strong>THE SIGNAL</strong></h1>
         <p className="title-deck">A retro text adventure about inherited roads, costly help, and the choices nobody can assign you.</p>
         <div className="signal-rule" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /></div>
 

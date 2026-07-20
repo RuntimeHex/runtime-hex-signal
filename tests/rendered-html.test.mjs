@@ -25,7 +25,8 @@ test("server-renders the complete Runtime Hex title screen", async () => {
   assert.match(html, /THE SIGNAL/);
   assert.match(html, /BEGIN TRANSMISSION/);
   assert.match(html, /A PLAYABLE BRANCH/);
-  assert.match(html, /rth-mark\.png/);
+  assert.match(html, /rth-mark-pixel\.png/);
+  assert.match(html, /og\.png/);
   assert.match(html, /Adrian/);
   assert.doesNotMatch(html, /MX-06/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
@@ -62,8 +63,9 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /REVOKE ACTIVE HELP \/\/ SERIOUS COST/);
   assert.match(app, /RUNTIME HEX \/\/ CREATOR CHANNEL/);
   assert.match(app, /runtime-hex-portrait\.png/);
-  assert.equal((app.match(/rth-mark-pixel\.png/g) ?? []).length, 2);
-  assert.equal((app.match(/rth-mark-pixel\.png"[^>]*unoptimized/g) ?? []).length, 2);
+  assert.equal((app.match(/rth-mark-pixel\.png/g) ?? []).length, 3);
+  assert.equal((app.match(/rth-mark-pixel\.png"[^>]*unoptimized/g) ?? []).length, 3);
+  assert.match(app, /og\.png"[^>]*unoptimized/);
   assert.match(app, /target instanceof HTMLInputElement/);
   assert.match(app, /target instanceof HTMLTextAreaElement/);
   assert.match(app, /target instanceof HTMLSelectElement/);
@@ -81,6 +83,8 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(css, /guide-preference-pulse/);
   assert.match(css, /communicator--runtime-hex/);
   assert.match(css, /runtime-hex-identity/);
+  assert.match(css, /\.brand-mark[^}]*image-rendering:\s*pixelated/);
+  assert.match(css, /\.title-keyart img[^}]*image-rendering:\s*pixelated/);
   assert.match(css, /\.game-brand img[^}]*image-rendering:\s*pixelated/);
   assert.match(css, /\.ending-header img[^}]*image-rendering:\s*pixelated/);
   assert.doesNotMatch(css, /\.game-screen\.has-last-signal/);
