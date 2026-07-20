@@ -30,6 +30,7 @@ import {
   playGuideCueForNode,
   playOpeningCue,
   playResumeTone,
+  playRuntimeHexCue,
   playSurveyCue,
   stopScore,
 } from "./audio";
@@ -78,6 +79,9 @@ function storyText(value: string, playerName: string) {
 }
 
 function choiceBlockReason(choice: StoryChoice, game: GameState) {
+  if (game.guide === "runtime-hex" && choice.guide && choice.guide !== "runtime-hex") {
+    return "RUNTIME HEX CHANNEL ACTIVE // ONE GUIDE LINK PER ROUTE.";
+  }
   const block = choice.blockedWhen;
   return block && game.flags[block.key] === block.value ? block.reason : null;
 }
@@ -121,7 +125,10 @@ export function GameApp() {
     persist(next);
     setScreen("game");
     setLogOpen(false);
-    if (soundOn) playOpeningCue();
+    if (soundOn) {
+      if (next.guide === "runtime-hex") playRuntimeHexCue();
+      else playOpeningCue();
+    }
   }, [persist, playerName, soundOn]);
 
   const continueGame = useCallback(() => {
@@ -188,6 +195,7 @@ export function GameApp() {
   const updateCommunicator = useCallback(
     (action: "answer" | "ignore" | "power-on" | "power-off" | "close" | "discard") => {
       if (!game.guide || screen !== "game") return;
+      if (game.guide === "runtime-hex") return;
 
       if (action === "answer") {
         persist({ ...game, communicator: "open", ignoredCallAt: undefined });
@@ -248,7 +256,7 @@ export function GameApp() {
   );
 
   const revokeBargain = useCallback(() => {
-    if (!game.guide || !game.flags.bargain?.startsWith(game.guide) || screen !== "game") return;
+    if (!game.guide || game.guide === "runtime-hex" || !game.flags.bargain?.startsWith(game.guide) || screen !== "game") return;
     const penalty = BARGAIN_REVOCATION[game.guide];
     const stats = applyEffects(game.stats, penalty.effects);
     const log = [
@@ -623,6 +631,19 @@ function CommunicatorPanel({
     );
   }
 
+  if (guide === "runtime-hex") {
+    return (
+      <section className="communicator communicator--runtime-hex" aria-label="Runtime Hex creator channel">
+        <p>RUNTIME HEX // CREATOR CHANNEL</p>
+        <figure className="runtime-hex-identity" aria-hidden="true">
+          <Image src="/game/runtime-hex-portrait.png" alt="" width={1024} height={1024} />
+        </figure>
+        <strong>CHANNEL OPEN</strong>
+        <span>{GUIDE_OPENING_LINES[guide]}</span>
+      </section>
+    );
+  }
+
   if (game.communicator === "discarded") {
     return (
       <section className={`communicator communicator--${guide}`}>
@@ -863,7 +884,7 @@ function AboutDialog({ close }: { close: () => void }) {
           <div><dt>THEME</dt><dd>Autonomy, care, and ethical system design</dd></div>
           <div><dt>BUILT WITH</dt><dd>Codex and GPT-5.6 during OpenAI Build Week</dd></div>
           <div><dt>CONTROLS</dt><dd>Mouse, touch, or keys 1–3. M toggles sound.</dd></div>
-          <div><dt>SCORE</dt><dd>Six Runtime Hex compositions reduced into reactive chiptune cues.</dd></div>
+          <div><dt>SCORE</dt><dd>Seven Runtime Hex compositions reduced into reactive chiptune cues.</dd></div>
           <div><dt>CONTENT</dt><dd>PG-13 playable branch. No account or data collection.</dd></div>
         </dl>
         <p className="about-creed">Systems should serve interior life. Power should answer to what it protects. Choice should remain choice.</p>

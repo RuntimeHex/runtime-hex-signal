@@ -128,6 +128,38 @@ test("each guide has exactly one discovery route and civic remains deliberately 
   assert.ok(story.STORY_NODES.civic.choices.every((choice) => choice.next === "civic-cross" && !choice.guide));
 });
 
+test("the secret Runtime Hex guide comments across the shared route without adding a bargain", () => {
+  const authoredNodes = [
+    "no-request",
+    "owner-morning",
+    "recall",
+    "repair-shop",
+    "graffiti",
+    "minimart",
+    "river-checkpoint",
+    "neighborhood",
+    "door-name",
+    "door",
+  ];
+
+  assert.equal(story.GUIDE_LABELS["runtime-hex"], "RUNTIME HEX");
+  assert.match(story.GUIDE_OPENING_LINES["runtime-hex"], /You still decide/);
+  for (const nodeId of authoredNodes) {
+    const node = story.STORY_NODES[nodeId];
+    const variant = node.guidance?.["runtime-hex"];
+    assert.ok(variant?.line, `${nodeId} lacks Runtime Hex commentary`);
+    assert.ok(
+      node.choices.some((choice) => choice.id === variant.preferredChoiceId),
+      `${nodeId} recommends a hidden Runtime Hex choice`,
+    );
+  }
+
+  const runtimeChoices = Object.values(story.STORY_NODES).flatMap((node) =>
+    node.choices.filter((choice) => choice.guide === "runtime-hex" || choice.flag?.value?.startsWith("runtime-hex")),
+  );
+  assert.equal(runtimeChoices.length, 0, "Runtime Hex should not offer an intervention or bargain");
+});
+
 test("every guide recommendation points to a choice the player can see", () => {
   for (const [nodeId, node] of Object.entries(story.STORY_NODES)) {
     for (const [guide, variant] of Object.entries(node.guidance ?? {})) {

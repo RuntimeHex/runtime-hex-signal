@@ -14,12 +14,14 @@ test("the approved Runtime Hex cue ledger is encoded exactly", () => {
     ["Welcome to Your Overlord", "1:00", "overlord"],
     ["Our Creed in Lights", "1:02", "rio"],
     ["Homesick for Nowhere", "1:09", "rebel"],
+    ["Runtime Hex", "3:00", "runtime-hex"],
   ];
 
   for (const [title, timestamp, cueId] of expected) {
     assert.match(scoreData, new RegExp(`title: ${JSON.stringify(title).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
     assert.match(scoreData, new RegExp(`sourceStart: ${JSON.stringify(timestamp).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
-    assert.match(scoreData, new RegExp(`${cueId}: \\{[\\s\\S]*?treatment: "Lead Memory"`));
+    const cueKey = cueId === "runtime-hex" ? '"runtime-hex"' : cueId;
+    assert.match(scoreData, new RegExp(`${cueKey}: \\{[\\s\\S]*?treatment: "Lead Memory"`));
   }
 
   assert.match(scoreData, /survey: \{[\s\S]*?treatment: "Factory Pulse"[\s\S]*?beats: 48/);
@@ -37,6 +39,8 @@ test("score playback reacts to the approved story moments", () => {
   }
 
   assert.match(app, /playOpeningCue\(\)/);
+  assert.match(app, /next\.guide === "runtime-hex"\) playRuntimeHexCue\(\)/);
+  assert.match(audio, /playScoreCue\("runtime-hex"\)/);
   assert.match(app, /playEndingCue\(\)/);
   assert.match(app, /playGuideCueForNode\(nodeId\)/);
   assert.match(app, /if \(opening\) playSurveyCue\(\)/);

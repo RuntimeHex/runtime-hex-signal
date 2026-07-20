@@ -59,6 +59,9 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /HOUSEHOLD NAME \/\/ OWNER PROFILE/);
   assert.match(app, /INCOMING SIGNAL/);
   assert.match(app, /REVOKE ACTIVE HELP \/\/ SERIOUS COST/);
+  assert.match(app, /RUNTIME HEX \/\/ CREATOR CHANNEL/);
+  assert.match(app, /runtime-hex-portrait\.png/);
+  assert.match(app, /ONE GUIDE LINK PER ROUTE/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.last-signal-banner/);
   assert.match(css, /\.scene-wire/);
@@ -67,6 +70,8 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(css, /--portrait-glow/);
   assert.match(css, /drop-shadow/);
   assert.match(css, /guide-preference-pulse/);
+  assert.match(css, /communicator--runtime-hex/);
+  assert.match(css, /runtime-hex-identity/);
   assert.doesNotMatch(css, /\.game-screen\.has-last-signal/);
   assert.doesNotMatch(css, /\.last-result/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

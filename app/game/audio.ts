@@ -33,6 +33,13 @@ function midiFrequency(note: number) {
 }
 
 function toneProfile(profile: ToneProfile, track: number, isLead: boolean) {
+  if (profile === "runtime-hex") {
+    return {
+      filter: isLead ? 2700 : track === 2 ? 900 : track === 3 ? 1600 : 2050,
+      level: isLead ? 0.032 : track === 2 ? 0.027 : track === 3 ? 0.015 : 0.009,
+      oscillator: isLead ? "square" : track === 2 ? "triangle" : track === 3 ? "sine" : "triangle",
+    } as const;
+  }
   if (profile === "rio") {
     return {
       filter: isLead ? 2600 : track === 2 ? 820 : 1850,
@@ -349,6 +356,10 @@ export function playResumeTone() {
 
 export function playOpeningCue() {
   playScoreCue("opening");
+}
+
+export function playRuntimeHexCue() {
+  playScoreCue("runtime-hex");
 }
 
 export function playEndingCue() {

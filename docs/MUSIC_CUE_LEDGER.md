@@ -5,6 +5,7 @@ The game score is synthesized in the browser from authored MIDI reductions. It d
 | Story moment | Composition | Source window | Treatment | Length |
 | --- | --- | ---: | --- | ---: |
 | Opening scene | Ready by Christmas | 0:59 | Lead Memory | 6 bars |
+| Secret Runtime Hex creator channel | Runtime Hex | 3:00 | Lead Memory | 6 bars |
 | Controller encounter | Total Control | 1:29 | Lead Memory | 6 bars |
 | Overlord encounter | Welcome to Your Overlord | 1:00 | Lead Memory | 6 bars |
 | Rio encounter | Our Creed in Lights | 1:02 | Lead Memory | 6 bars |

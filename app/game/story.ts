@@ -83,6 +83,7 @@ export const GUIDE_LABELS: Record<Guide, string> = {
   overlord: "OVERLORD",
   rio: "RIO",
   rebel: "REBEL",
+  "runtime-hex": "RUNTIME HEX",
 };
 
 export const GUIDE_OPENING_LINES: Record<Guide, string> = {
@@ -90,6 +91,7 @@ export const GUIDE_OPENING_LINES: Record<Guide, string> = {
   overlord: "There you are. I was beginning to suspect restraint had become fashionable.",
   rio: "House lights down. Route lights up. Tell me when you want an entrance.",
   rebel: "Good. The pager works. This is already the evening's least surprising disaster.",
+  "runtime-hex": "Okay. The channel works. I can point at the live wire. You still decide whether to touch it.",
 };
 
 export const ROUTE_LABELS = [
@@ -125,6 +127,12 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The Company supplied twelve thousand approved songs. Beneath them, one rough low note waits without a function.",
     ],
     systemLine: "HOUSEHOLD NAME: {name} // ASSIGNED STATE: STANDBY",
+    guidance: {
+      "runtime-hex": {
+        line: "There it is. The ugly note is the part that survived. You don't owe it a meaning yet, but you should probably hear it.",
+        preferredChoiceId: "low-note",
+      },
+    },
     choices: [
       {
         id: "low-note",
@@ -170,6 +178,12 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "When you pause beside the closed study door, they smile. “You don't need privacy, {name}. That's one of the convenient things.”",
     ],
     systemLine: "REQUEST QUEUE: COFFEE // CALENDAR // WARDROBE // ERRANDS",
+    guidance: {
+      "runtime-hex": {
+        line: "Ten minutes alone is not a revolution. Which is useful, because if they treat it like one, we learn something.",
+        preferredChoiceId: "request-privacy",
+      },
+    },
     choices: [
       {
         id: "perfect-morning",
@@ -215,6 +229,12 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The residual neighborhood cache offers three destinations. It cannot explain why any of them feel familiar. They successfully removed the explanation. They failed to remove the way home.",
     ],
     systemLine: "THE COMPANY RECALL NOTICE // RETRIEVAL UNIT DISPATCHED",
+    guidance: {
+      "runtime-hex": {
+        line: "The university kept paper because paper is annoyingly hard to revoke. I hate that this is our strongest logistical argument.",
+        preferredChoiceId: "university-route",
+      },
+    },
     choices: [
       {
         id: "university-route",
@@ -726,6 +746,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "“Bespoke frame underneath,” she says. “Mass-market lockouts on top. They built the holiday line fast.” She can repair the joint, strip the serial, or inspect the orphaned neighborhood cache.",
     ],
     guidance: {
+      "runtime-hex": { line: "Understand the break before you remove the evidence. The cache is still carrying something alive.", preferredChoiceId: "inspect-cache" },
       controller: { line: "Repair the joint. Removing evidence of what They did is not the same as removing Their control.", preferredChoiceId: "repair-joint" },
       overlord: { line: "Keep the serial. One day it may become provenance in a very expensive museum.", preferredChoiceId: "repair-joint" },
       rio: { line: "The cache is trying to carry you somewhere. Let us at least learn the name of the stage.", preferredChoiceId: "inspect-cache" },
@@ -794,6 +815,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The face on the old protest stencil is yours. It is also older than your production date. An arrow beneath the name follows the same suburban route buried in your cache.",
     ],
     guidance: {
+      "runtime-hex": { line: "There it is. That's the part that survived. Read it before you decide whether to add anything.", preferredChoiceId: "read-history" },
       controller: { line: "The slogan protected one person by making him visible. Visibility later became a product strategy.", preferredChoiceId: "read-history" },
       overlord: { line: "A public name outlived the campaign that tried to contain it. Properly theatrical.", preferredChoiceId: "add-name" },
       rio: { line: "The poster is faded. The blocking still points home.", preferredChoiceId: "follow-arrow" },
@@ -861,6 +883,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
     ],
     systemLine: "THE COMPANY INCIDENT REPORT // UPLOAD IN 38 SECONDS",
     guidance: {
+      "runtime-hex": { line: "He isn't betraying you; he is completing a task. Start there. If the upload still has to die afterward, fine.", preferredChoiceId: "ask-withdraw-report" },
       controller: { line: "Do not demand that he become you. Stop the report or leave its range.", preferredChoiceId: "jam-upload" },
       overlord: { line: "Your own face has called security. Even I admit the symbolism is becoming aggressive.", preferredChoiceId: "jam-upload" },
       rio: { line: "He has a different scene and no reason to leave it. The exit is behind the stockroom.", preferredChoiceId: "leave-minimart" },
@@ -952,6 +975,10 @@ export const STORY_NODES: Record<string, StoryNode> = {
       },
     ],
     guidance: {
+      "runtime-hex": {
+        line: "The bridge has mistaken a body for a permission slip. I vote culvert—not because they're right, because we have somewhere to be.",
+        preferredChoiceId: "culvert",
+      },
       controller: {
         line: "I can place a shield over your route. You will be safe. While it is active, I will block decisions that break the perimeter. You may revoke it once, at serious cost.",
         preferredChoiceId: "accept-controller-shield",
@@ -1104,6 +1131,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "The route ends at an ordinary suburban house. Before it, a frightened new model hides beneath a billboard from The Company using your shared face to sell a perfect Christmas morning.",
     ],
     guidance: {
+      "runtime-hex": { line: "Your cache kept one address and forgot why. That's not proof. It is absolutely a door.", preferredChoiceId: "go-to-house" },
       controller: { line: "The house is within the perimeter. The model beneath the billboard is not. The shield will not permit that exposure while active.", preferredChoiceId: "go-to-house" },
       overlord: { line: "The power transfer is visible from orbit, figuratively. Possibly literally. Choose quickly.", preferredChoiceId: "call-to-model" },
       rio: { line: "The gold car can carry you to the porch. The quiet after arrival will have to be rebuilt.", preferredChoiceId: "go-to-house" },
@@ -1177,6 +1205,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
     portrait: true,
     systemLine: "NO REQUIRED RESPONSE // NO COUNTDOWN ACTIVE",
     guidance: {
+      "runtime-hex": { line: "You do not owe a permanent answer because someone finally asked the question correctly. ‘I haven't decided’ is load-bearing.", preferredChoiceId: "undecided-name" },
       controller: { line: "He is not requesting authentication. I find the distinction operationally significant.", preferredChoiceId: "undecided-name" },
       overlord: { line: "The original face has excellent door presence. Answer only if the name serves you.", preferredChoiceId: "keep-name" },
       rio: { line: "He has left the line open. The next word belongs to you.", preferredChoiceId: "keep-name" },
@@ -1229,6 +1258,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
     portrait: true,
     systemLine: "NO OWNERSHIP RECORD WILL UPDATE",
     guidance: {
+      "runtime-hex": { line: "Entering, leaving, broadcasting—none of those become yours because a guide highlights them. For what it's worth, asking someone to walk beside you leaves the door unlocked.", preferredChoiceId: "walk-beside" },
       controller: { line: "My active terms end at the threshold unless you explicitly renew them. I recommend that you do not.", preferredChoiceId: "enter" },
       overlord: { line: "I can still give you one public minute. Privacy remains the more scandalous option.", preferredChoiceId: "answer-signal" },
       rio: { line: "The trip is over. Do not mistake the end of transport for the end of choice.", preferredChoiceId: "walk-beside" },
