@@ -586,6 +586,16 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "A campus alert turns every exterior door into a monitored exit. Students begin arguing with security on principle and without coordination.",
       "During the confusion, an overloaded charging lead scorches your left shoulder port. A cached repair listing wakes three blocks away.",
     ],
+    guidance: {
+      controller: {
+        line: "Take the maintenance hall. Low visibility matters more than an undamaged actuator if security closes the route.",
+        preferredChoiceId: "maintenance-hall",
+      },
+      rebel: {
+        line: "The students are already lying to security recreationally. Ask before joining the extracurricular.",
+        preferredChoiceId: "student-misdirection",
+      },
+    },
     choices: [
       {
         id: "maintenance-hall",
@@ -639,6 +649,16 @@ export const STORY_NODES: Record<string, StoryNode> = {
       "A retrieval van enters beneath the old marquee. The theater's security shutters descend one by one, turning streets into a sequence of narrowing stages.",
       "One shutter catches your shoulder before you clear it. Your cache offers an all-night electronics stall with a human technician and a soldering iron.",
     ],
+    guidance: {
+      overlord: {
+        line: "The final shutter has mistaken itself for authority. Correct it publicly.",
+        preferredChoiceId: "break-shutter",
+      },
+      rio: {
+        line: "Enter the crowd on its rhythm. For one block, recognition can become camouflage.",
+        preferredChoiceId: "through-crowd",
+      },
+    },
     choices: [
       {
         id: "under-stage",

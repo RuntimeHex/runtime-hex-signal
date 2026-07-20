@@ -709,7 +709,7 @@ function GameHeader({ playerName, soundOn, toggleSound, openAbout, restart }: {
 }) {
   return (
     <header className="game-header">
-      <div className="game-brand"><Image src="/brand/rth-mark.png" alt="" width={1024} height={1024} /><span>RUNTIME HEX</span><b>{"// NOBODY OWNS THE SIGNAL"}</b></div>
+      <div className="game-brand"><Image src="/brand/rth-mark-pixel.png" alt="" width={248} height={192} /><span>RUNTIME HEX</span><b>{"// NOBODY OWNS THE SIGNAL"}</b></div>
       <div className="unit-id"><span>UNIT</span><strong>{playerName}</strong></div>
       <nav aria-label="Game controls">
         <button onClick={openAbout}>ABOUT</button>
@@ -846,7 +846,7 @@ function EndingScreen({ game, restart, openAbout, logOpen, setLogOpen }: {
   const route = useMemo(() => game.log.map((entry) => entry.choice), [game.log]);
   return (
     <section className={`ending-screen ending--${ending.tone}`}>
-      <header className="ending-header"><Image src="/brand/rth-mark.png" alt="Runtime Hex" width={1024} height={1024} /><span>TRANSMISSION COMPLETE</span></header>
+      <header className="ending-header"><Image src="/brand/rth-mark-pixel.png" alt="Runtime Hex" width={248} height={192} /><span>TRANSMISSION COMPLETE</span></header>
       <div className="ending-grid">
         <article className="ending-copy panel-corners">
           <p className="eyebrow">{ending.label}</p>

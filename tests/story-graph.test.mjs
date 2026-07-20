@@ -110,6 +110,25 @@ test("guide consent stays layered and every shared scene has an Alone version", 
   assert.ok(controllerBlock?.blockedWhen.reason.includes("CONTROLLER SHIELD"));
 });
 
+test("answering a newly offered guide channel reveals an immediate recommendation", () => {
+  const firstCallScenes = {
+    "campus-cross": ["controller", "rebel"],
+    "theater-cross": ["overlord", "rio"],
+  };
+
+  for (const [nodeId, guides] of Object.entries(firstCallScenes)) {
+    const node = story.STORY_NODES[nodeId];
+    for (const guide of guides) {
+      const variant = node.guidance?.[guide];
+      assert.ok(variant?.line, `${guide} cannot speak immediately at ${nodeId}`);
+      assert.ok(
+        node.choices.some((choice) => choice.id === variant.preferredChoiceId),
+        `${guide} recommends a missing immediate choice at ${nodeId}`,
+      );
+    }
+  }
+});
+
 test("each guide has exactly one discovery route and civic remains deliberately Alone", () => {
   const meetingByGuide = {
     rebel: "rebel-meeting",

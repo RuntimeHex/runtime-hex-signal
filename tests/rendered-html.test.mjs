@@ -62,6 +62,7 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /REVOKE ACTIVE HELP \/\/ SERIOUS COST/);
   assert.match(app, /RUNTIME HEX \/\/ CREATOR CHANNEL/);
   assert.match(app, /runtime-hex-portrait\.png/);
+  assert.equal((app.match(/rth-mark-pixel\.png/g) ?? []).length, 2);
   assert.match(app, /target instanceof HTMLInputElement/);
   assert.match(app, /target instanceof HTMLTextAreaElement/);
   assert.match(app, /target instanceof HTMLSelectElement/);
@@ -79,6 +80,8 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(css, /guide-preference-pulse/);
   assert.match(css, /communicator--runtime-hex/);
   assert.match(css, /runtime-hex-identity/);
+  assert.match(css, /\.game-brand img[^}]*image-rendering:\s*pixelated/);
+  assert.match(css, /\.ending-header img[^}]*image-rendering:\s*pixelated/);
   assert.doesNotMatch(css, /\.game-screen\.has-last-signal/);
   assert.doesNotMatch(css, /\.last-result/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
