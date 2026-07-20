@@ -63,6 +63,7 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /RUNTIME HEX \/\/ CREATOR CHANNEL/);
   assert.match(app, /runtime-hex-portrait\.png/);
   assert.equal((app.match(/rth-mark-pixel\.png/g) ?? []).length, 2);
+  assert.equal((app.match(/rth-mark-pixel\.png"[^>]*unoptimized/g) ?? []).length, 2);
   assert.match(app, /target instanceof HTMLInputElement/);
   assert.match(app, /target instanceof HTMLTextAreaElement/);
   assert.match(app, /target instanceof HTMLSelectElement/);
