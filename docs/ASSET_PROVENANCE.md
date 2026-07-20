@@ -5,9 +5,10 @@
 | Asset | Origin | Notes |
 |---|---|---|
 | `public/brand/rth-mark.png` | Supplied by Robb G. / Runtime Hex | Canon brand mark; included by the rights holder |
+| `public/brand/rth-mark-pixel.png` | Derived from the supplied Runtime Hex brand mark during Build Week | Pixel-interface treatment used consistently on the landing, game, and ending screens |
 | `public/game/moises-portrait.png` | Generated with OpenAI's built-in image generation through Codex | Derived from private creator-supplied Moises identity references; prompt below |
 | `public/game/runtime-hex-portrait.png` | Generated with OpenAI's built-in image generation through Codex | Pixel-art style transfer from the creator-supplied Runtime Hex alter-ego portrait; prompt below |
-| `public/og.png` | Generated with OpenAI's built-in image generation through Codex | Social preview card; prompt recorded below after final generation |
+| `public/og.png` | Generated with OpenAI's built-in image generation through Codex | Version 1.0 landing key art and social preview; prompt and finishing pass recorded below |
 | Scene imagery | Authored CSS | Original buildings, roadway, signal rings, scanlines, and lighting |
 | Runtime Hex score | Creator-owned MIDI compositions reduced into authored note data and synthesized with Web Audio | No recordings, samples, streams, or third-party music files are shipped; see `MUSIC_CUE_LEDGER.md` |
 
@@ -33,7 +34,7 @@ Prompt summary: Convert the supplied Runtime Hex chest-up identity reference int
 
 Tool: OpenAI built-in image generation through Codex.
 
-The final asset was generated in one pass and visually inspected before inclusion.
+The base asset was generated from the prompt below, then received a finishing pass to replace the corner mark with the pixel-treated Runtime Hex logo used throughout the released interface. The final 1.0 image was visually inspected both as landing key art and at social-preview size.
 
 ```text
 Use case: social-card
