@@ -124,7 +124,7 @@ export function GameApp() {
     localStorage.removeItem(SAVE_KEY);
     persist(next);
     setScreen("game");
-    setLogOpen(false);
+    setLogOpen(true);
     if (soundOn) {
       if (next.guide === "runtime-hex") playRuntimeHexCue();
       else playOpeningCue();
