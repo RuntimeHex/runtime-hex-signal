@@ -56,6 +56,7 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /role="meter"/);
   assert.match(app, /scene-portrait/);
   assert.match(app, /\[logOpen, setLogOpen\] = useState\(true\)/);
+  assert.match(app, /const begin = useCallback[\s\S]*?setScreen\("game"\);\s*setLogOpen\(true\);/);
   assert.match(app, /choice--guide-preferred/);
   assert.match(app, /PREFERRED/);
   assert.match(app, /HOUSEHOLD NAME \/\/ OWNER PROFILE/);
