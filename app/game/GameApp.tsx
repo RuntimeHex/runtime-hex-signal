@@ -93,7 +93,7 @@ export function GameApp() {
   const [savedGame, setSavedGame] = useState<GameState | null>(null);
   const [soundOn, setSoundOn] = useState(true);
   const [aboutOpen, setAboutOpen] = useState(false);
-  const [logOpen, setLogOpen] = useState(false);
+  const [logOpen, setLogOpen] = useState(true);
   const [choiceLocked, setChoiceLocked] = useState(false);
 
   useEffect(() => {
@@ -650,7 +650,7 @@ function CommunicatorPanel({
       <section className="communicator communicator--runtime-hex" aria-label="Runtime Hex creator channel">
         <p>RUNTIME HEX // CREATOR CHANNEL</p>
         <figure className="runtime-hex-identity" aria-hidden="true">
-          <Image src="/game/runtime-hex-portrait.png" alt="" width={1024} height={1024} />
+          <Image src="/game/runtime-hex-portrait.png" alt="" width={1024} height={1024} unoptimized />
         </figure>
         <strong>CHANNEL OPEN</strong>
         <span>{GUIDE_OPENING_LINES[guide]}</span>
@@ -836,7 +836,7 @@ function SceneArt({ scene, speaker, portrait }: { scene: string; speaker: string
       </div>
       {showPortrait && (
         <div className="scene-portrait" aria-hidden="true">
-          <Image src="/game/moises-portrait.png" alt="" width={1024} height={1024} />
+          <Image src="/game/moises-portrait.png" alt="" width={1024} height={1024} unoptimized />
         </div>
       )}
       <div className="scene-caption">SCENE // {scene.toUpperCase()}</div>

@@ -55,6 +55,7 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /VALUES REFLECT YOUR LAST COMPLETED ACTION/);
   assert.match(app, /role="meter"/);
   assert.match(app, /scene-portrait/);
+  assert.match(app, /\[logOpen, setLogOpen\] = useState\(true\)/);
   assert.match(app, /choice--guide-preferred/);
   assert.match(app, /PREFERRED/);
   assert.match(app, /HOUSEHOLD NAME \/\/ OWNER PROFILE/);
@@ -63,7 +64,8 @@ test("keeps required accessibility and privacy statements in source", async () =
   assert.match(app, /INCOMING SIGNAL/);
   assert.match(app, /REVOKE ACTIVE HELP \/\/ SERIOUS COST/);
   assert.match(app, /RUNTIME HEX \/\/ CREATOR CHANNEL/);
-  assert.match(app, /runtime-hex-portrait\.png/);
+  assert.match(app, /runtime-hex-portrait\.png"[^>]*unoptimized/);
+  assert.match(app, /moises-portrait\.png"[^>]*unoptimized/);
   assert.equal((app.match(/rth-mark-pixel\.png/g) ?? []).length, 3);
   assert.equal((app.match(/rth-mark-pixel\.png"[^>]*unoptimized/g) ?? []).length, 3);
   assert.match(app, /og\.png"[^>]*unoptimized/);
