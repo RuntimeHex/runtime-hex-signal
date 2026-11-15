@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   applyEffects,
+  appliedEffects,
+  interpretTrace,
   BARGAIN_REVOCATION,
   createInitialState,
   crisisNode,
@@ -59,12 +61,7 @@ function interpretStat(stat: StatKey, value: number) {
     return { condition: "CRITICAL", meaning: "The body is near cascade failure and requires repair." };
   }
 
-  if (stat === "trace") {
-    if (value < 25) return { condition: "LOW", meaning: "The Company has fragments, not a reliable route to you." };
-    if (value < 50) return { condition: "ACTIVE", meaning: "Network records are beginning to connect your face to this route." };
-    if (value < 75) return { condition: "HIGH", meaning: "Retrieval can narrow your position through cameras and reports." };
-    return { condition: "SEVERE", meaning: "The Company is close to establishing direct retrieval contact." };
-  }
+  if (stat === "trace") return interpretTrace(value);
 
   if (value >= 70) return { condition: "STRONG", meaning: "Your choices form a clear self-authored signal beneath assigned function." };
   if (value >= 45) return { condition: "COHERENT", meaning: "A recognizable pattern of preference is holding across the route." };
@@ -168,7 +165,7 @@ export function GameApp() {
           nodeId: game.nodeId,
           choice: storyText(choice.label, game.playerName),
           result: storyText(choice.result, game.playerName),
-          effects: choice.effects,
+          effects: appliedEffects(game.stats, stats),
           guideReaction: reaction,
         },
       ];
@@ -232,7 +229,7 @@ export function GameApp() {
           nodeId: game.nodeId,
           choice: `Revoke ${GUIDE_LABELS[game.guide]}'s active help.`,
           result: penalty.result,
-          effects: penalty.effects,
+          effects: appliedEffects(game.stats, stats),
           guideReaction: {
             guide: game.guide,
             text: game.guide === "controller"
@@ -265,7 +262,7 @@ export function GameApp() {
         nodeId: game.nodeId,
         choice: `Revoke ${GUIDE_LABELS[game.guide]}'s active help.`,
         result: penalty.result,
-        effects: penalty.effects,
+        effects: appliedEffects(game.stats, stats),
         guideReaction: {
           guide: game.guide,
           text: game.guide === "controller"
@@ -317,6 +314,7 @@ export function GameApp() {
   }, [aboutOpen, choose, game.communicator, game.guide, game.nodeId, screen, toggleSound]);
 
   const restart = () => {
+    if (!window.confirm("Restart this journey? Your saved progress will be erased. This cannot be undone.")) return;
     stopScore(0.05);
     const nextName = randomPlayerName();
     localStorage.removeItem(SAVE_KEY);
@@ -494,7 +492,7 @@ function GameScreen({
           <StatsPanel stats={game.stats} />
           <div className="trace-status">
             <span>THE COMPANY TRACE</span>
-            <strong className={game.stats.trace > 70 ? "danger" : ""}>{game.stats.trace < 40 ? "LOW" : game.stats.trace < 75 ? "ACTIVE" : "CRITICAL"}</strong>
+            <strong className={game.stats.trace >= 75 ? "danger" : ""}>{interpretTrace(game.stats.trace).condition}</strong>
           </div>
           {recent && <RecentEffects entry={recent} />}
         </aside>
@@ -615,6 +613,7 @@ function RecentEffects({ entry }: { entry: GameState["log"][number] }) {
     <section className="recent-effects" aria-label="Resource changes from your previous choice">
       <p>LAST CHANGE // RESOURCE DELTA</p>
       <div>
+        {Object.keys(entry.effects).length === 0 && <span>No resource change.</span>}
         {Object.entries(entry.effects).map(([key, value]) => (
           <i className={`effect-chip effect--${key}`} key={key}>
             {formatEffect(key as StatKey, value ?? 0)}
@@ -880,15 +879,21 @@ function EndingScreen({ game, restart, openAbout, logOpen, setLogOpen }: {
 }
 
 function AboutDialog({ close }: { close: () => void }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
-    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") close(); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [close]);
+    const dialog = dialogRef.current;
+    const opener = document.activeElement;
+    dialog?.showModal();
+    return () => {
+      dialog?.close();
+      if (opener instanceof HTMLElement && opener.isConnected) opener.focus();
+    };
+  }, []);
 
   return (
-    <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.currentTarget === event.target) close(); }}>
-      <section className="about-dialog panel-corners" role="dialog" aria-modal="true" aria-labelledby="about-title">
+    <dialog ref={dialogRef} className="modal-backdrop" aria-modal="true" aria-labelledby="about-title" onCancel={(event) => { event.preventDefault(); close(); }} onClick={(event) => { if (event.currentTarget === event.target) close(); }}>
+      <section className="about-dialog panel-corners">
         <button className="modal-close" onClick={close} aria-label="Close about panel">×</button>
         <p className="eyebrow">PROJECT DOSSIER</p>
         <h2 id="about-title">A choice engine wearing audit boots.</h2>
@@ -903,6 +908,6 @@ function AboutDialog({ close }: { close: () => void }) {
         </dl>
         <p className="about-creed">Systems should serve interior life. Power should answer to what it protects. Choice should remain choice.</p>
       </section>
-    </div>
+    </dialog>
   );
 }

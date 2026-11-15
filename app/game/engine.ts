@@ -114,6 +114,23 @@ export function applyEffects(stats: Stats, effects: Partial<Stats>): Stats {
   );
 }
 
+/** Actual resource movement, not the requested effect before clamping. */
+export function appliedEffects(before: Stats, after: Stats): Partial<Stats> {
+  return Object.fromEntries(
+    (Object.keys(STAT_LIMITS) as StatKey[])
+      .map((key) => [key, after[key] - before[key]] as const)
+      .filter(([, delta]) => delta !== 0),
+  );
+}
+
+/** Shared by the status panel and location-survey interpretation. */
+export function interpretTrace(value: number) {
+  if (value < 25) return { condition: "LOW", meaning: "The Company has fragments, not a reliable route to you." };
+  if (value < 50) return { condition: "ACTIVE", meaning: "Network records are beginning to connect your face to this route." };
+  if (value < 75) return { condition: "HIGH", meaning: "Retrieval can narrow your position through cameras and reports." };
+  return { condition: "SEVERE", meaning: "The Company is close to establishing direct retrieval contact." };
+}
+
 export function crisisNode(stats: Stats): string | null {
   if (stats.trace >= 100) return "trace-crisis";
   if (stats.charge <= 0) return "charge-crisis";

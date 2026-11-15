@@ -1440,7 +1440,7 @@ export const STORY_NODES: Record<string, StoryNode> = {
 export const LOCATION_SURVEYS: Record<string, string[]> = {
   "no-request": [
     "Unit 41-B is arranged around an owner profile: preferred light levels, habitual paths, recurring requests, and doors you were never expected to consider closed to you.",
-    "The neighborhood cache survived because local recommendations were faster to retrieve than remote ones. It contains practiced distances without the person who practiced themâ€”familiarity manufactured without memory.",
+    "The neighborhood cache survived because local recommendations were faster to retrieve than remote ones. It contains practiced distances without the person who practiced them—familiarity manufactured without memory.",
   ],
   "owner-morning": [
     "The kitchen recognizes your chassis as household equipment. Every appliance accepts your commands; the closed study door is the only object here that describes a boundary you were told you do not need.",
@@ -1464,7 +1464,7 @@ export const LOCATION_SURVEYS: Record<string, string[]> = {
   ],
   "rebel-meeting": [
     "The diagnostic room lost its official purpose when the library annex was renovated. Thick walls, obsolete network ports, and student-maintained power make it more useful now than it was on the facilities plan.",
-    "The pager belongs to the informal support routes that survived the original protests. It carries one voice and no remote-control channelâ€”a limitation Rebel considers the principal feature.",
+    "The pager belongs to the informal support routes that survived the original protests. It carries one voice and no remote-control channel—a limitation Rebel considers the principal feature.",
   ],
   "controller-meeting": [
     "The red room was built to coordinate municipal emergencies. Its hardened walls block outside transmitters; Controller has disabled the lock before asking you to remain inside it.",

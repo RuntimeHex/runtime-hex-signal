@@ -67,3 +67,17 @@ test("rejects malformed browser saves", () => {
   assert.equal(engine.isSavedGame({ version: 1, stats: {} }), false);
   assert.equal(engine.isSavedGame(engine.createInitialState("MX-06")), true);
 });
+
+test("reports only the actual clamped resource movement", () => {
+  const before = { charge: 5, integrity: 99, trace: 98, signal: 0 };
+  const after = engine.applyEffects(before, { charge: -20, integrity: 20, trace: 20, signal: -10 });
+  assert.deepEqual(engine.appliedEffects(before, after), { charge: -5, integrity: 1, trace: 2 });
+  assert.deepEqual(engine.appliedEffects(after, engine.applyEffects(after, { integrity: 20, trace: 4 })), {});
+  assert.deepEqual(before, { charge: 5, integrity: 99, trace: 98, signal: 0 });
+});
+
+test("uses one Trace interpretation across every boundary", () => {
+  for (const [value, condition] of [[0, "LOW"], [24, "LOW"], [25, "ACTIVE"], [36, "ACTIVE"], [49, "ACTIVE"], [50, "HIGH"], [74, "HIGH"], [75, "SEVERE"], [100, "SEVERE"]]) {
+    assert.equal(engine.interpretTrace(value).condition, condition);
+  }
+});
